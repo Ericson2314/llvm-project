@@ -79,8 +79,13 @@
 // RUN: %clang %s -### -fuse-ld=lld \
 // RUN:     -target i686-unknown-windows-msvc 2>&1 \
 // RUN:   | FileCheck %s --check-prefix CHECK-WINDOWS-MSVC-LLD
-// CHECK-WINDOWS-MSVC-LLD: "{{.*}}lld-link"
-// CHECK-WINDOWS-MSVC-LLD-SAME: "-out:{{.*}}"
+// CHECK-WINDOWS-MSVC-LLD: "{{.*}}ld.lld"
+// CHECK-WINDOWS-MSVC-LLD-SAME: "-o"
+
+// RUN: %clang-cl %s -### -fuse-ld=lld \
+// RUN:   | FileCheck %s --check-prefix CHECK-WINDOWS-MSVC-LLD
+// CHECK-cl-WINDOWS-MSVC-LLD: "{{.*}}ld.lld"
+// CHECK-cl-WINDOWS-MSVC-LLD-SAME: "-o"
 
 // RUN: %clang %s -### -fuse-ld=lld-link \
 // RUN:     -target i686-unknown-windows-msvc 2>&1 \

@@ -490,13 +490,10 @@ void visualstudio::Linker::ConstructJob(Compilation &C, const JobAction &JA,
 
   std::vector<const char *> Environment;
 
-  // We need to special case some linker paths.  In the case of lld, we need to
-  // translate 'lld' into 'lld-link', and in the case of the regular msvc
+  // We need to special case some linker paths.  In the case of the regular msvc
   // linker, we need to use a special search algorithm.
   llvm::SmallString<128> linkPath;
   StringRef Linker = Args.getLastArgValue(options::OPT_fuse_ld_EQ, "link");
-  if (Linker.equals_lower("lld"))
-    Linker = "lld-link";
 
   if (Linker.equals_lower("link")) {
     // If we're using the MSVC linker, it's not sufficient to just use link

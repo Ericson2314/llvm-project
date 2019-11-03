@@ -4785,8 +4785,8 @@ const ToolChain &Driver::getToolChain(const ArgList &Args,
         break;
       case llvm::Triple::MSVC:
       case llvm::Triple::UnknownEnvironment:
-        if (Args.getLastArgValue(options::OPT_fuse_ld_EQ)
-                .startswith_lower("bfd"))
+        auto linkerFlavor = Args.getLastArgValue(options::OPT_fuse_ld_EQ);
+        if (linkerFlavor.startswith_lower("bfd") || linkerFlavor.equals_lower("lld")
           TC = std::make_unique<toolchains::CrossWindowsToolChain>(
               *this, Target, Args);
         else
