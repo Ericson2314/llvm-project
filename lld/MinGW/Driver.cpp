@@ -232,6 +232,8 @@ bool mingw::link(ArrayRef<const char *> argsArr, raw_ostream &diag) {
     add("-subsystem:" + StringRef(a->getValue()));
   }
 
+  if (args.hasFlag(OPT_allow_multiple_definition, OPT_no_allow_multiple_definition, false))
+    add("-force:multiple");
   if (auto *a = args.getLastArg(OPT_out_implib))
     add("-implib:" + StringRef(a->getValue()));
   if (auto *a = args.getLastArg(OPT_stack))

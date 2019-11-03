@@ -40,6 +40,14 @@ RUN: ld.lld -### foo.o -m i386pep -obar.exe | FileCheck -check-prefix=OUT %s
 RUN: ld.lld -### foo.o -m i386pep -o bar.exe | FileCheck -check-prefix=OUT %s
 OUT: -out:bar.exe
 
+RUN: ld.lld -### foo.o -m i386pep --allow-multiple-definitions | FileCheck -check-prefix=FORCE_MULTIPLE %s
+RUN: ld.lld -### foo.o -m i386pep --no-allow-multiple-definitions --allow-multiple-definitions | FileCheck -check-prefix=FORCE_MULTIPLE %s
+FORCE_MULTIPLE: -force:multiple
+
+RUN: ld.lld -### foo.o -m i386pep --no-allow-multiple-definitions | FileCheck -check-prefix=NO_FORCE_MULTIPLE %s
+RUN: ld.lld -### foo.o -m i386pep --allow-multiple-definitions --no-allow-multiple-definitions | FileCheck -check-prefix=NO_FORCE_MULTIPLE %s
+NO_FORCE_MULTIPLE-NOT: -force:multiple
+
 RUN: ld.lld -### foo.o -m i386pep --out-implib bar | FileCheck -check-prefix=IMPLIB %s
 RUN: ld.lld -### foo.o -m i386pep --out-implib=bar | FileCheck -check-prefix=IMPLIB %s
 RUN: ld.lld -### foo.o -m i386pep -out-implib bar | FileCheck -check-prefix=IMPLIB %s

@@ -20,7 +20,13 @@ def L: JoinedOrSeparate<["-"], "L">, MetaVarName<"<dir>">,
   HelpText<"Add a directory to the library search path">;
 def Bdynamic: F<"Bdynamic">, HelpText<"Link against shared libraries">;
 def Bstatic: F<"Bstatic">, HelpText<"Do not link against shared libraries">;
+
+defm allow_multiple_definition: B<"allow-multiple-definition",
+    "Allow multiple definitions",
+    "Do not allow multiple definitions (default)">;
+
 def dynamicbase: F<"dynamicbase">, HelpText<"Enable ASLR">;
+
 defm entry: Eq<"entry", "Name of entry point symbol">, MetaVarName<"<entry>">;
 def exclude_all_symbols: F<"exclude-all-symbols">,
     HelpText<"Don't automatically export any symbols">;
