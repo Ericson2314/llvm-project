@@ -578,7 +578,7 @@ void visualstudio::Linker::ConstructJob(Compilation &C, const JobAction &JA,
   SkipSettingEnvironment:;
 #endif
   } else {
-    linkPath = TC.GetProgramPath(Linker.str().c_str());
+    linkPath = TC.GetLinkerPath();
   }
 
   auto LinkCmd = std::make_unique<Command>(
