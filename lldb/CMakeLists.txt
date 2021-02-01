@@ -7,6 +7,8 @@ set(CMAKE_MODULE_PATH
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
   )
 
+include(GNUInstallDirs)
+
 include(LLDBStandalone)
 include(LLDBConfig)
 include(AddLLDB)

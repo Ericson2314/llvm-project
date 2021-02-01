@@ -289,8 +289,8 @@ else()
   set(LIBOMP_HEADERS_INSTALL_PATH lib${OPENMP_LIBDIR_SUFFIX}/clang/${CLANG_VERSION}/include)
 endif()
 if(WIN32)
-  install(TARGETS omp RUNTIME DESTINATION bin)
-  install(TARGETS ompimp ARCHIVE DESTINATION lib${OPENMP_LIBDIR_SUFFIX})
+  install(TARGETS omp RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+  install(TARGETS ompimp ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}${OPENMP_LIBDIR_SUFFIX})
   # Create aliases (regular copies) of the library for backwards compatibility
   set(LIBOMP_ALIASES "libiomp5md")
   foreach(alias IN LISTS LIBOMP_ALIASES)
@@ -301,7 +301,7 @@ if(WIN32)
   endforeach()
 else()
 
-  install(TARGETS omp ${LIBOMP_INSTALL_KIND} DESTINATION lib${OPENMP_LIBDIR_SUFFIX})
+  install(TARGETS omp ${LIBOMP_INSTALL_KIND} DESTINATION ${CMAKE_INSTALL_LIBDIR}${OPENMP_LIBDIR_SUFFIX})
 
   if(${LIBOMP_INSTALL_ALIASES})
     # Create aliases (symlinks) of the library for backwards compatibility

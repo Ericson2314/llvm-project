@@ -10,7 +10,7 @@ function(install_symlink name target outdir)
     set(LINK_OR_COPY copy)
   endif()
 
-  set(bindir "${DESTDIR}${CMAKE_INSTALL_PREFIX}/${outdir}/")
+  set(bindir "${DESTDIR}${outdir}/")
 
   message("Creating ${name}")
 

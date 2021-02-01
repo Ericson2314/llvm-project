@@ -21,4 +21,4 @@ target_link_libraries(clang-refactor
   clangToolingRefactor
   )
 
-install(TARGETS clang-refactor RUNTIME DESTINATION bin)
+install(TARGETS clang-refactor RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
