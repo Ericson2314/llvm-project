@@ -19,4 +19,4 @@ target_link_libraries(clang-check
   )
 
 install(TARGETS clang-check
-  RUNTIME DESTINATION bin)
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

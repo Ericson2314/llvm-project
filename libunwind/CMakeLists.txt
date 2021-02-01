@@ -18,6 +18,8 @@ set(CMAKE_MODULE_PATH
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   project(libunwind)
 
+  include(GNUInstallDirs)
+
   # Rely on llvm-config.
   set(CONFIG_OUTPUT)
   if(NOT LLVM_CONFIG_PATH)

@@ -4,7 +4,7 @@ add_clang_tool(clangd
   ClangdMain.cpp
   )
 
-install(TARGETS clangd RUNTIME DESTINATION bin)
+install(TARGETS clangd RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 set(LLVM_LINK_COMPONENTS
   support

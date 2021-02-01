@@ -11,4 +11,4 @@ target_link_libraries(clang-query
   clangTooling
   )
 
-install(TARGETS clang-query RUNTIME DESTINATION bin)
+install(TARGETS clang-query RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

@@ -12,4 +12,4 @@ target_link_libraries(lldb-intel-mpxtable
                       PUBLIC liblldb LLVMSupport)
 
 install(TARGETS lldb-intel-mpxtable
-  LIBRARY DESTINATION bin)
+  LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR})

@@ -9,4 +9,4 @@ target_link_libraries(clang-reorder-fields
   clangToolingCore
   )
 
-install(TARGETS clang-reorder-fields RUNTIME DESTINATION bin)
+install(TARGETS clang-reorder-fields RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
