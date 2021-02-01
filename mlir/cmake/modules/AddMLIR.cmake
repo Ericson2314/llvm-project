@@ -152,9 +152,9 @@ function(add_mlir_library_install name)
   install(TARGETS ${name}
     COMPONENT ${name}
     ${export_to_mlirtargets}
-    LIBRARY DESTINATION lib${LLVM_LIBDIR_SUFFIX}
-    ARCHIVE DESTINATION lib${LLVM_LIBDIR_SUFFIX}
-    RUNTIME DESTINATION bin)
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
   if (NOT LLVM_ENABLE_IDE)
     add_llvm_install_targets(install-${name}

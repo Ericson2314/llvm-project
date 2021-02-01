@@ -8,6 +8,8 @@ if (OPENMP_STANDALONE_BUILD OR "${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_S
   set(OPENMP_STANDALONE_BUILD TRUE)
   project(openmp C CXX)
 
+  include(GNUInstallDirs)
+
   # CMAKE_BUILD_TYPE was not set, default to Release.
   if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
