@@ -94,13 +94,13 @@ function(add_lldb_library name)
   endif()
 
   if(PARAM_SHARED)
-    set(install_dest lib${LLVM_LIBDIR_SUFFIX})
+    set(install_dest ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX})
     if(PARAM_INSTALL_PREFIX)
       set(install_dest ${PARAM_INSTALL_PREFIX})
     endif()
     # RUNTIME is relevant for DLL platforms, FRAMEWORK for macOS
     install(TARGETS ${name} COMPONENT ${name}
-      RUNTIME DESTINATION bin
+      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
       LIBRARY DESTINATION ${install_dest}
       ARCHIVE DESTINATION ${install_dest}
       FRAMEWORK DESTINATION ${install_dest})

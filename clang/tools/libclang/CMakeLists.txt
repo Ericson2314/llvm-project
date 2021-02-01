@@ -137,7 +137,7 @@ endif()
 if(INTERNAL_INSTALL_PREFIX)
   set(LIBCLANG_HEADERS_INSTALL_DESTINATION "${INTERNAL_INSTALL_PREFIX}/include")
 else()
-  set(LIBCLANG_HEADERS_INSTALL_DESTINATION include)
+  set(LIBCLANG_HEADERS_INSTALL_DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif()
 
 install(DIRECTORY ../../include/clang-c
@@ -168,7 +168,7 @@ foreach(PythonVersion ${CLANG_PYTHON_BINDINGS_VERSIONS})
           COMPONENT
             libclang-python-bindings
           DESTINATION
-            "lib${LLVM_LIBDIR_SUFFIX}/python${PythonVersion}/site-packages")
+            "${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}/python${PythonVersion}/site-packages")
 endforeach()
 if(NOT LLVM_ENABLE_IDE)
   add_custom_target(libclang-python-bindings)

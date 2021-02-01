@@ -23,5 +23,5 @@ target_link_libraries(modularize
   )
 
 install(TARGETS modularize
-        RUNTIME DESTINATION bin
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         COMPONENT clang-extras)

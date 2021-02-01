@@ -14,6 +14,8 @@ set(CMAKE_MODULE_PATH
 # If we are not building as part of LLVM, build LLDB as a standalone project,
 # using LLVM as an external library.
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+  include(GNUInstallDirs)
+
   include(LLDBStandalone)
 endif()
 
