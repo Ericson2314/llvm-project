@@ -21,7 +21,7 @@ clang_target_link_libraries(diagtool
 if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
   install(TARGETS diagtool
     COMPONENT diagtool
-    RUNTIME DESTINATION bin)
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
   if (NOT LLVM_ENABLE_IDE)
     add_llvm_install_targets(install-diagtool

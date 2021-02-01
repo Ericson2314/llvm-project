@@ -9,5 +9,5 @@ add_llvm_pass_plugin(Bye
   BUILDTREE_ONLY
  )
 
-install(TARGETS ${name} RUNTIME DESTINATION examples)
+install(TARGETS ${name} RUNTIME DESTINATION ${CMAKE_INSTALL_DOCDIR}/examples)
 set_target_properties(${name} PROPERTIES FOLDER "Examples")

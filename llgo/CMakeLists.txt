@@ -144,7 +144,7 @@ llvm_add_go_executable(llgoi llvm.org/llgo/cmd/llgoi ALL
 install(FILES ${CMAKE_BINARY_DIR}/bin/llgo${CMAKE_EXECUTABLE_SUFFIX}
               ${CMAKE_BINARY_DIR}/bin/llgoi${CMAKE_EXECUTABLE_SUFFIX}
               ${CMAKE_BINARY_DIR}/bin/llgo-go${CMAKE_EXECUTABLE_SUFFIX}
-        DESTINATION bin
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
                     GROUP_READ GROUP_EXECUTE
                     WORLD_READ WORLD_EXECUTE)
@@ -241,10 +241,10 @@ install(FILES ${LLGO_LIBRARY_DIR}/libgo-llgo.a
               ${LLGO_LIBRARY_DIR}/libgo-llgo.so.8
               ${LLGO_LIBRARY_DIR}/libgo-llgo.so.8.0.0
               ${LLGO_LIBRARY_DIR}/libgobegin-llgo.a
-        DESTINATION lib${LLVM_LIBDIR_SUFFIX})
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX})
 
 install(DIRECTORY ${LLGO_LIBRARY_DIR}/go
-        DESTINATION lib${LLVM_LIBDIR_SUFFIX})
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX})
 
 add_custom_target(check-libgo
   COMMAND make -C ${CMAKE_CURRENT_BINARY_DIR}/libgo -j${PROCESSOR_COUNT} check

@@ -9,6 +9,8 @@ endif()
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
   project(Clang)
 
+  include(GNUInstallDirs)
+
   # Rely on llvm-config.
   set(CONFIG_OUTPUT)
   if(LLVM_CONFIG)
@@ -417,7 +419,7 @@ include_directories(BEFORE
 
 if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
   install(DIRECTORY include/clang include/clang-c
-    DESTINATION include
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     COMPONENT clang-headers
     FILES_MATCHING
     PATTERN "*.def"
@@ -427,7 +429,7 @@ if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
     )
 
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/clang
-    DESTINATION include
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     COMPONENT clang-headers
     FILES_MATCHING
     PATTERN "CMakeFiles" EXCLUDE
@@ -447,7 +449,7 @@ if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
 
   add_custom_target(bash-autocomplete DEPENDS utils/bash-autocomplete.sh)
   install(PROGRAMS utils/bash-autocomplete.sh
-          DESTINATION share/clang
+          DESTINATION ${CMAKE_INSTALL_DATADIR}/clang
           COMPONENT bash-autocomplete)
   if(NOT LLVM_ENABLE_IDE)
     add_llvm_install_targets(install-bash-autocomplete
