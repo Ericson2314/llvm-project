@@ -6,7 +6,7 @@ include(GNUInstallDirs)
 
 function(install_symlink name target outdir)
   set(DESTDIR $ENV{DESTDIR})
-  set(bindir "${DESTDIR}${CMAKE_INSTALL_PREFIX}/${outdir}")
+  set(bindir "${DESTDIR}${outdir}/")
 
   message(STATUS "Creating ${name}")
 
