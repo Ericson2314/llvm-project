@@ -17,11 +17,11 @@ target_link_libraries(clang-include-fixer
   )
 
 install(TARGETS clang-include-fixer
-  RUNTIME DESTINATION bin)
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 install(PROGRAMS clang-include-fixer.el
-  DESTINATION share/clang
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/clang
   COMPONENT clang-include-fixer)
 install(PROGRAMS clang-include-fixer.py
-  DESTINATION share/clang
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/clang
   COMPONENT clang-include-fixer)

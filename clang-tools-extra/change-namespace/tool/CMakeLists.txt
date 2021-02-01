@@ -21,4 +21,4 @@ target_link_libraries(clang-change-namespace
   )
 
 install(TARGETS clang-change-namespace
-  RUNTIME DESTINATION bin)
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

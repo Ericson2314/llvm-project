@@ -20,4 +20,4 @@ target_link_libraries(clang-func-mapping
   )
 
 install(TARGETS clang-func-mapping
-  RUNTIME DESTINATION bin)
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

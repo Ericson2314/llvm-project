@@ -16,4 +16,4 @@ target_link_libraries(clang-apply-replacements
   )
 
 install(TARGETS clang-apply-replacements
-  RUNTIME DESTINATION bin)
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
