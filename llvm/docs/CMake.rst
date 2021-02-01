@@ -224,7 +224,7 @@ description is in `LLVM-related variables`_ below.
 **LLVM_LIBDIR_SUFFIX**:STRING
   Extra suffix to append to the directory where libraries are to be
   installed. On a 64-bit architecture, one could use ``-DLLVM_LIBDIR_SUFFIX=64``
-  to install libraries to ``/usr/lib64``.
+  to install libraries to ``/usr/lib64``. See also ``CMAKE_INSTALL_LIBDIR``.
 
 **LLVM_PARALLEL_{COMPILE,LINK}_JOBS**:STRING
   Building the llvm toolchain can use a lot of resources, particularly

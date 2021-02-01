@@ -86,7 +86,7 @@ unset(POLLY_EXPORTS)
 find_prefix_from_config(POLLY_CONFIG_CODE POLLY_INSTALL_PREFIX "${POLLY_INSTALL_PACKAGE_DIR}")
 extend_path(POLLY_CONFIG_LLVM_CMAKE_DIR "\${POLLY_INSTALL_PREFIX}" "${LLVM_INSTALL_PACKAGE_DIR}")
 extend_path(POLLY_CONFIG_CMAKE_DIR "\${POLLY_INSTALL_PREFIX}" "${POLLY_INSTALL_PACKAGE_DIR}")
-extend_path(POLLY_CONFIG_LIBRARY_DIRS "\${POLLY_INSTALL_PREFIX}" "lib${LLVM_LIBDIR_SUFFIX}")
+extend_path(POLLY_CONFIG_LIBRARY_DIRS "\${POLLY_INSTALL_PREFIX}" "${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}")
 extend_path(base_includedir "\${POLLY_INSTALL_PREFIX}" "${CMAKE_INSTALL_INCLUDEDIR}")
 if (POLLY_BUNDLED_ISL)
   set(POLLY_CONFIG_INCLUDE_DIRS
@@ -112,12 +112,12 @@ set(POLLY_EXPORTS
 foreach(tgt IN LISTS POLLY_CONFIG_EXPORTED_TARGETS)
   get_target_property(tgt_type ${tgt} TYPE)
   if (tgt_type STREQUAL "EXECUTABLE")
-    set(tgt_prefix "${CMAKE_INSTALL_BINDIR}/")
+    set(tgt_prefix "${CMAKE_INSTALL_BINDIR}")
   else()
-    set(tgt_prefix "${CMAKE_INSTALL_LIBDIR}/")
+    set(tgt_prefix "${CMAKE_INSTALL_LIBDIR}")
   endif()
 
-  extend_path(tgt_path "\${POLLY_INSTALL_PREFIX}" "${tgt_prefix}$<TARGET_FILE_NAME:${tgt}>")
+  extend_path(tgt_path "\${POLLY_INSTALL_PREFIX}" "${tgt_prefix}/$<TARGET_FILE_NAME:${tgt}>")
 
   if (NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
     set(POLLY_EXPORTS
