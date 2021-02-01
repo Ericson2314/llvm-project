@@ -11,7 +11,7 @@ set(LLVM_EXPORTED_SYMBOL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/OptRemarks.exports)
 add_llvm_library(OptRemarks SHARED ${SOURCES})
 
 install(FILES ${LLVM_MAIN_INCLUDE_DIR}/llvm-c/OptRemarks.h
-  DESTINATION include/llvm-c
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/llvm-c
   COMPONENT OptRemarks)
 
 if (APPLE)

@@ -17,8 +17,8 @@ target_link_libraries(find-all-symbols
   )
 
 install(TARGETS find-all-symbols
-  RUNTIME DESTINATION bin)
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 install(PROGRAMS run-find-all-symbols.py
-  DESTINATION share/clang
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/clang
   COMPONENT find-all-symbols)

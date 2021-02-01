@@ -289,7 +289,7 @@ else()
   set(LIBOMP_HEADERS_INSTALL_PATH "${OPENMP_INSTALL_LIBDIR}/clang/${CLANG_VERSION}/include")
 endif()
 if(WIN32)
-  install(TARGETS omp RUNTIME DESTINATION bin)
+  install(TARGETS omp RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(TARGETS ompimp ARCHIVE DESTINATION "${OPENMP_INSTALL_LIBDIR}")
   # Create aliases (regular copies) of the library for backwards compatibility
   set(LIBOMP_ALIASES "libiomp5md")

@@ -99,9 +99,9 @@ macro(add_clang_library name)
       install(TARGETS ${name}
         COMPONENT ${name}
         ${export_to_clangtargets}
-        LIBRARY DESTINATION lib${LLVM_LIBDIR_SUFFIX}
-        ARCHIVE DESTINATION lib${LLVM_LIBDIR_SUFFIX}
-        RUNTIME DESTINATION bin)
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
       if (${ARG_SHARED} AND NOT CMAKE_CONFIGURATION_TYPES)
         add_llvm_install_targets(install-${name}
@@ -142,7 +142,7 @@ macro(add_clang_tool name)
 
     install(TARGETS ${name}
       ${export_to_clangtargets}
-      RUNTIME DESTINATION bin
+      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
       COMPONENT ${name})
 
     if(NOT CMAKE_CONFIGURATION_TYPES)
@@ -157,5 +157,5 @@ endmacro()
 macro(add_clang_symlink name dest)
   add_llvm_tool_symlink(${name} ${dest} ALWAYS_GENERATE)
   # Always generate install targets
-  llvm_install_symlink(${name} ${dest} ALWAYS_GENERATE)
+  llvm_install_symlink(${name} ${dest} ${CMAKE_INSTALL_FULL_BINDIR} ALWAYS_GENERATE)
 endmacro()

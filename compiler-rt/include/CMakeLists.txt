@@ -48,12 +48,12 @@ set_target_properties(compiler-rt-headers PROPERTIES FOLDER "Compiler-RT Misc")
 install(FILES ${SANITIZER_HEADERS}
   COMPONENT compiler-rt-headers
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-  DESTINATION ${COMPILER_RT_INSTALL_PATH}/include/sanitizer)
+  DESTINATION ${COMPILER_RT_INSTALL_PATH}/${CMAKE_INSTALL_FULL_INCLUDEDIR}/sanitizer)
 # Install xray headers.
 install(FILES ${XRAY_HEADERS}
   COMPONENT compiler-rt-headers
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-  DESTINATION ${COMPILER_RT_INSTALL_PATH}/include/xray)
+  DESTINATION ${COMPILER_RT_INSTALL_PATH}/${CMAKE_INSTALL_FULL_INCLUDEDIR}/xray)
 
 if (NOT CMAKE_CONFIGURATION_TYPES) # don't add this for IDEs.
   add_custom_target(install-compiler-rt-headers

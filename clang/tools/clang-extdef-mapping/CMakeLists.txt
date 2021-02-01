@@ -18,4 +18,4 @@ target_link_libraries(clang-extdef-mapping
   )
 
 install(TARGETS clang-extdef-mapping
-  RUNTIME DESTINATION bin)
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

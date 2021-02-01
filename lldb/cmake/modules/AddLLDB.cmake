@@ -63,18 +63,18 @@ function(add_lldb_library name)
             set(install_dir ".")
           endif()
         else()
-          set(install_dir lib${LLVM_LIBDIR_SUFFIX})
+          set(install_dir ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX})
         endif()
         install(TARGETS ${name}
           COMPONENT ${name}
-          RUNTIME DESTINATION bin
+          RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
           LIBRARY DESTINATION ${install_dir}
           ARCHIVE DESTINATION ${install_dir})
       else()
         install(TARGETS ${name}
           COMPONENT ${name}
-          LIBRARY DESTINATION lib${LLVM_LIBDIR_SUFFIX}
-          ARCHIVE DESTINATION lib${LLVM_LIBDIR_SUFFIX})
+          LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}
+          ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX})
       endif()
       if (NOT CMAKE_CONFIGURATION_TYPES)
         add_llvm_install_targets(install-${name}
@@ -122,7 +122,7 @@ function(add_lldb_executable name)
   if(ARG_GENERATE_INSTALL)
     install(TARGETS ${name}
             COMPONENT ${name}
-            RUNTIME DESTINATION bin)
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
     if (NOT CMAKE_CONFIGURATION_TYPES)
       add_llvm_install_targets(install-${name}
                                DEPENDS ${name}

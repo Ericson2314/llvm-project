@@ -59,11 +59,11 @@ if (LLVM_TREE_AVAILABLE)
 else()
     # Take output dir and install path from the user.
   set(COMPILER_RT_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR} CACHE PATH
-    "Path where built compiler-rt libraries should be stored.")
+    "Path where built compiler-rt build artifacts should be stored.")
   set(COMPILER_RT_EXEC_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin CACHE PATH
     "Path where built compiler-rt executables should be stored.")
-  set(COMPILER_RT_INSTALL_PATH ${CMAKE_INSTALL_PREFIX} CACHE PATH
-    "Path where built compiler-rt libraries should be installed.")
+  set(COMPILER_RT_INSTALL_PATH "" CACHE PATH
+    "Prefix where built compiler-rt artifacts should be installed, comes before CMAKE_INSTALL_PREFIX.")
   option(COMPILER_RT_INCLUDE_TESTS "Generate and build compiler-rt unit tests." OFF)
   option(COMPILER_RT_ENABLE_WERROR "Fail and stop if warning is triggered" OFF)
   # Use a host compiler to compile/link tests.
@@ -91,7 +91,7 @@ else(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR)
   set(COMPILER_RT_LIBRARY_OUTPUT_DIR
     ${COMPILER_RT_OUTPUT_DIR}/lib/${COMPILER_RT_OS_DIR})
   set(COMPILER_RT_LIBRARY_INSTALL_DIR
-    ${COMPILER_RT_INSTALL_PATH}/lib/${COMPILER_RT_OS_DIR})
+    ${COMPILER_RT_INSTALL_PATH}/${CMAKE_INSTALL_FULL_LIBDIR}/${COMPILER_RT_OS_DIR})
 endif()
 
 if(APPLE)

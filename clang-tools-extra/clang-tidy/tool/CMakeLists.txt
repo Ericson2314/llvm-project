@@ -45,8 +45,8 @@ if(CLANG_ENABLE_STATIC_ANALYZER)
 endif()
 
 install(PROGRAMS clang-tidy-diff.py
-  DESTINATION share/clang
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/clang
   COMPONENT clang-tidy)
 install(PROGRAMS run-clang-tidy.py
-  DESTINATION share/clang
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/clang
   COMPONENT clang-tidy)

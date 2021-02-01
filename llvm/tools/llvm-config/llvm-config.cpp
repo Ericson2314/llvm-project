@@ -333,11 +333,21 @@ int main(int argc, char **argv) {
         ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include");
   } else {
     ActivePrefix = CurrentExecPrefix;
-    ActiveIncludeDir = ActivePrefix + "/include";
-    SmallString<256> path(StringRef(LLVM_TOOLS_INSTALL_DIR));
-    sys::fs::make_absolute(ActivePrefix, path);
-    ActiveBinDir = path.str();
-    ActiveLibDir = ActivePrefix + "/lib" + LLVM_LIBDIR_SUFFIX;
+    {
+      SmallString<256> path(StringRef(LLVM_INSTALL_INCLUDEDIR));
+      sys::fs::make_absolute(ActivePrefix, path);
+      ActiveIncludeDir = std::string(path.str());
+    }
+    {
+      SmallString<256> path(StringRef(LLVM_INSTALL_BINDIR));
+      sys::fs::make_absolute(ActivePrefix, path);
+      ActiveBinDir = std::string(path.str());
+    }
+    {
+      SmallString<256> path(StringRef(LLVM_INSTALL_LIBDIR LLVM_LIBDIR_SUFFIX));
+      sys::fs::make_absolute(ActivePrefix, path);
+      ActiveLibDir = std::string(path.str());
+    }
     ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
     ActiveIncludeOption = "-I" + ActiveIncludeDir;
   }
