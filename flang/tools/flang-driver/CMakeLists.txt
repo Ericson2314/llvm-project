@@ -27,4 +27,4 @@ clang_target_link_libraries(flang-new
   clangBasic
 )
 
-install(TARGETS flang-new DESTINATION bin)
+install(TARGETS flang-new DESTINATION ${CMAKE_INSTALL_BINDIR})

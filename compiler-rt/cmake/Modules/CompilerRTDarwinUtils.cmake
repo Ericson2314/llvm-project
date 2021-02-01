@@ -508,7 +508,7 @@ macro(darwin_add_embedded_builtin_libraries)
     set(DARWIN_macho_embedded_LIBRARY_OUTPUT_DIR
       ${COMPILER_RT_OUTPUT_DIR}/lib/macho_embedded)
     set(DARWIN_macho_embedded_LIBRARY_INSTALL_DIR
-      ${COMPILER_RT_INSTALL_PATH}/lib/macho_embedded)
+      ${COMPILER_RT_INSTALL_PATH}/${CMAKE_INSTALL_FULL_LIBDIR}/macho_embedded)
       
     set(CFLAGS_armv7 "-target thumbv7-apple-darwin-eabi")
     set(CFLAGS_i386 "-march=pentium")

@@ -57,18 +57,18 @@ foreach(filename ${MODULES})
       copy ${include}/${filename}.mod ${include}/${filename}.f18.mod)
   list(APPEND MODULE_FILES ${include}/${filename}.mod)
   list(APPEND MODULE_FILES ${include}/${filename}.f18.mod)
-  install(FILES ${include}/${filename}.mod DESTINATION include/flang)
-  install(FILES ${include}/${filename}.f18.mod DESTINATION include/flang)
+  install(FILES ${include}/${filename}.mod DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/flang)
+  install(FILES ${include}/${filename}.f18.mod DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/flang)
 endforeach()
 
 add_custom_target(module_files ALL DEPENDS ${MODULE_FILES})
 
-install(TARGETS f18 DESTINATION bin)
+install(TARGETS f18 DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 # This flang shell script will only work in a POSIX shell.
 if (NOT WIN32)
   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/flang
     DESTINATION ${CMAKE_BINARY_DIR}/bin
     FILE_PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE)
-  install(PROGRAMS ${CMAKE_BINARY_DIR}/bin/flang DESTINATION bin)
+  install(PROGRAMS ${CMAKE_BINARY_DIR}/bin/flang DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()

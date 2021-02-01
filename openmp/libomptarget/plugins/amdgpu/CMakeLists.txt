@@ -67,7 +67,7 @@ add_library(omptarget.rtl.amdgpu SHARED
 
 # Install plugin under the lib destination folder.
 # When we build for debug, OPENMP_LIBDIR_SUFFIX get set to -debug
-install(TARGETS omptarget.rtl.amdgpu LIBRARY DESTINATION "lib${OPENMP_LIBDIR_SUFFIX}")
+install(TARGETS omptarget.rtl.amdgpu LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}${OPENMP_LIBDIR_SUFFIX}")
 
 set_property(TARGET omptarget.rtl.amdgpu PROPERTY INSTALL_RPATH "$ORIGIN")
 target_link_libraries(
