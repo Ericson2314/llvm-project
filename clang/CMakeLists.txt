@@ -7,6 +7,8 @@ include(GNUInstallDirs)
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   project(Clang)
 
+  include(GNUInstallDirs)
+
   set(CMAKE_CXX_STANDARD 14 CACHE STRING "C++ standard to conform to")
   set(CMAKE_CXX_STANDARD_REQUIRED YES)
   set(CMAKE_CXX_EXTENSIONS NO)
