@@ -370,11 +370,15 @@ int main(int argc, char **argv) {
       ActiveBinDir = std::string(Path.str());
     }
     {
-      SmallString<256> Path(StringRef(LLVM_INSTALL_LIBDIR LLVM_LIBDIR_SUFFIX));
+      SmallString<256> Path(LLVM_INSTALL_LIBDIR LLVM_LIBDIR_SUFFIX);
       sys::fs::make_absolute(ActivePrefix, Path);
       ActiveLibDir = std::string(Path.str());
     }
-    ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
+    {
+      SmallString<256> Path(LLVM_INSTALL_PACKAGE_DIR);
+      sys::fs::make_absolute(ActivePrefix, Path);
+      ActiveCMakeDir = std::string(Path.str());
+    }
     ActiveIncludeOption = "-I" + ActiveIncludeDir;
   }
 
