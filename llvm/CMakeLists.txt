@@ -303,6 +303,9 @@ set(LLVM_EXAMPLES_INSTALL_DIR "examples" CACHE STRING
     "Path for examples subdirectory (enabled by LLVM_BUILD_EXAMPLES=ON) (defaults to 'examples')")
 mark_as_advanced(LLVM_EXAMPLES_INSTALL_DIR)
 
+set(LLVM_INSTALL_CMAKE_DIR "${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}/cmake/llvm" CACHE STRING
+	"Path for CMake subdirectory (defaults to lib/cmake/llvm)" )
+
 # They are used as destination of target generators.
 set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin)
 set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX})
