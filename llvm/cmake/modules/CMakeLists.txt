@@ -1,4 +1,4 @@
-set(LLVM_INSTALL_PACKAGE_DIR ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}/cmake/llvm CACHE STRING "Path for CMake subdirectory (defaults to 'cmake/llvm')")
+set(LLVM_INSTALL_PACKAGE_DIR ${LLVM_INSTALL_CMAKE_DIR} CACHE STRING "Path for CMake subdirectory (defaults to 'cmake/llvm')")
 set(llvm_cmake_builddir "${LLVM_BINARY_DIR}/${LLVM_INSTALL_PACKAGE_DIR}")
 
 # First for users who use an installed LLVM, create the LLVMExports.cmake file.
