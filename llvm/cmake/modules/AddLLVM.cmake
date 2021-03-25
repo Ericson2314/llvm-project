@@ -1013,14 +1013,14 @@ function(process_llvm_pass_plugins)
 
       ## Part 1: Extension header to be included whenever we need extension
       #  processing.
-      set(LLVM_INSTALL_PACKAGE_DIR ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX}/cmake/llvm)
+      set(LLVM_INSTALL_PACKAGE_DIR lib${LLVM_LIBDIR_SUFFIX}/cmake/llvm)
       set(llvm_cmake_builddir "${LLVM_BINARY_DIR}/${LLVM_INSTALL_PACKAGE_DIR}")
       file(WRITE
           "${llvm_cmake_builddir}/LLVMConfigExtensions.cmake"
           "set(LLVM_STATIC_EXTENSIONS ${LLVM_STATIC_EXTENSIONS})")
       install(FILES
           ${llvm_cmake_builddir}/LLVMConfigExtensions.cmake
-          DESTINATION ${LLVM_INSTALL_PACKAGE_DIR}
+          DESTINATION ${LLVM_INSTALL_CMAKE_DIR}
           COMPONENT cmake-exports)
 
       set(ExtensionDef "${LLVM_BINARY_DIR}/include/llvm/Support/Extension.def")
