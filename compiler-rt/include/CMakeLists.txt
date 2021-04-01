@@ -69,22 +69,22 @@ set_target_properties(compiler-rt-headers PROPERTIES FOLDER "Compiler-RT Misc")
 install(FILES ${SANITIZER_HEADERS}
   COMPONENT compiler-rt-headers
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-  DESTINATION ${COMPILER_RT_INSTALL_PATH}/include/sanitizer)
+  DESTINATION include/sanitizer)
 # Install fuzzer headers.
 install(FILES ${FUZZER_HEADERS}
   COMPONENT compiler-rt-headers
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-  DESTINATION ${COMPILER_RT_INSTALL_PATH}/include/fuzzer)
+  DESTINATION include/fuzzer)
 # Install xray headers.
 install(FILES ${XRAY_HEADERS}
   COMPONENT compiler-rt-headers
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-  DESTINATION ${COMPILER_RT_INSTALL_PATH}/include/xray)
+  DESTINATION include/xray)
 # Install profile headers.
 install(FILES ${PROFILE_HEADERS}
   COMPONENT compiler-rt-headers
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-  DESTINATION ${COMPILER_RT_INSTALL_PATH}/include/profile)
+  DESTINATION include/profile)
 
 if (NOT CMAKE_CONFIGURATION_TYPES) # don't add this for IDEs.
   add_custom_target(install-compiler-rt-headers

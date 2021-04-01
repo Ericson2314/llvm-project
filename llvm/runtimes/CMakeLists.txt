@@ -1,6 +1,6 @@
 # TODO: This file assumes the Clang toolchain so it'd be better if it lived in
-# Clang, except there already is clang/runtime directory which contains
-# similar although simpler functionality. We should figure out how to merge
+# Clang, except there already is runtimes directory which contains
+# similar functionality. We should figure out how to merge
 # the two files.
 
 # TODO: Selecting runtimes should be always performed inside the runtimes
