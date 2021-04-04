@@ -12,6 +12,8 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR COMPILER_RT_STANDALONE
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 endif()
 
+include(GNUInstallDirs)
+
 # Add path for custom compiler-rt modules.
 list(INSERT CMAKE_MODULE_PATH 0
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
