@@ -107,7 +107,7 @@ function(add_lldb_library name)
   endif()
 
   if(PARAM_SHARED)
-    set(install_dest lib${LLVM_LIBDIR_SUFFIX})
+    set(install_dest ${CMAKE_INSTALL_LIBDIR}${LLVM_LIBDIR_SUFFIX})
     if(PARAM_INSTALL_PREFIX)
       set(install_dest ${PARAM_INSTALL_PREFIX})
     endif()

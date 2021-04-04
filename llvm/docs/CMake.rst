@@ -196,7 +196,7 @@ CMake manual, or execute ``cmake --help-variable VARIABLE_NAME``.
 **LLVM_LIBDIR_SUFFIX**:STRING
   Extra suffix to append to the directory where libraries are to be
   installed. On a 64-bit architecture, one could use ``-DLLVM_LIBDIR_SUFFIX=64``
-  to install libraries to ``/usr/lib64``.
+  to install libraries to ``/usr/lib64``. See also ``CMAKE_INSTALL_LIBDIR``.
 
 **CMAKE_C_FLAGS**:STRING
   Extra flags to use when compiling C source files.
@@ -598,6 +598,10 @@ LLVM-specific variables
 **CMAKE_INSTALL_BINDIR**:STRING
   The path to install binary tools, relative to the ``CMAKE_INSTALL_PREFIX``.
   Defaults to `bin`.
+
+**CMAKE_INSTALL_LIBDIR**:STRING
+  The path to install libraries, relative to the ``CMAKE_INSTALL_PREFIX``.
+  Defaults to `lib`.
 
 **CMAKE_INSTALL_INCLUDEDIR**:STRING
   The path to install header files, relative to the ``CMAKE_INSTALL_PREFIX``.
