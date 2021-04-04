@@ -42,7 +42,7 @@ if (LLVM_TREE_AVAILABLE)
   # Setup the paths where compiler-rt runtimes and headers should be stored.
   set(COMPILER_RT_OUTPUT_DIR ${LLVM_LIBRARY_OUTPUT_INTDIR}/clang/${CLANG_VERSION})
   set(COMPILER_RT_EXEC_OUTPUT_DIR ${LLVM_RUNTIME_OUTPUT_INTDIR})
-  set(COMPILER_RT_INSTALL_PATH lib${LLVM_LIBDIR_SUFFIX}/clang/${CLANG_VERSION})
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}lib${LLVM_LIBDIR_SUFFIX}/clang/${CLANG_VERSION})
   option(COMPILER_RT_INCLUDE_TESTS "Generate and build compiler-rt unit tests."
          ${LLVM_INCLUDE_TESTS})
   option(COMPILER_RT_ENABLE_WERROR "Fail and stop if warning is triggered"
@@ -68,8 +68,6 @@ else()
     "Path where built compiler-rt libraries should be stored.")
   set(COMPILER_RT_EXEC_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin CACHE PATH
     "Path where built compiler-rt executables should be stored.")
-  set(COMPILER_RT_INSTALL_PATH ${CMAKE_INSTALL_PREFIX} CACHE PATH
-    "Path where built compiler-rt libraries should be installed.")
   option(COMPILER_RT_INCLUDE_TESTS "Generate and build compiler-rt unit tests." OFF)
   option(COMPILER_RT_ENABLE_WERROR "Fail and stop if warning is triggered" OFF)
   # Use a host compiler to compile/link tests.
@@ -92,12 +90,12 @@ if(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR AND NOT APPLE)
   set(COMPILER_RT_LIBRARY_OUTPUT_DIR
     ${COMPILER_RT_OUTPUT_DIR})
   set(COMPILER_RT_LIBRARY_INSTALL_DIR
-    ${COMPILER_RT_INSTALL_PATH})
+    "")
 else(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR)
   set(COMPILER_RT_LIBRARY_OUTPUT_DIR
     ${COMPILER_RT_OUTPUT_DIR}/lib/${COMPILER_RT_OS_DIR})
   set(COMPILER_RT_LIBRARY_INSTALL_DIR
-    ${COMPILER_RT_INSTALL_PATH}/lib/${COMPILER_RT_OS_DIR})
+    lib/${COMPILER_RT_OS_DIR})
 endif()
 
 if(APPLE)
