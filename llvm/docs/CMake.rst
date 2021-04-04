@@ -555,8 +555,8 @@ LLVM-specific variables
 
 **LLVM_INSTALL_DOXYGEN_HTML_DIR**:STRING
   The path to install Doxygen-generated HTML documentation to. This path can
-  either be absolute or relative to the CMAKE_INSTALL_PREFIX. Defaults to
-  `share/doc/llvm/doxygen-html`.
+  either be absolute or relative to the ``CMAKE_INSTALL_PREFIX``. Defaults to
+  `${CMAKE_INSTALL_DOCDIR}/${project}/doxygen-html`.
 
 **LLVM_ENABLE_SPHINX**:BOOL
   If specified, CMake will search for the ``sphinx-build`` executable and will make
@@ -587,13 +587,29 @@ LLVM-specific variables
 
 **LLVM_INSTALL_SPHINX_HTML_DIR**:STRING
   The path to install Sphinx-generated HTML documentation to. This path can
-  either be absolute or relative to the CMAKE_INSTALL_PREFIX. Defaults to
-  `share/doc/llvm/html`.
+  either be absolute or relative to the ``CMAKE_INSTALL_PREFIX``. Defaults to
+  `${CMAKE_INSTALL_DOCDIR}/${project}/html`.
 
 **LLVM_INSTALL_OCAMLDOC_HTML_DIR**:STRING
   The path to install OCamldoc-generated HTML documentation to. This path can
-  either be absolute or relative to the CMAKE_INSTALL_PREFIX. Defaults to
-  `share/doc/llvm/ocaml-html`.
+  either be absolute or relative to the ``CMAKE_INSTALL_PREFIX``. Defaults to
+  `${CMAKE_INSTALL_DOCDIR}/${project}/ocaml-html`.
+
+**CMAKE_INSTALL_BINDIR**:STRING
+  The path to install binary tools, relative to the ``CMAKE_INSTALL_PREFIX``.
+  Defaults to `bin`.
+
+**CMAKE_INSTALL_INCLUDEDIR**:STRING
+  The path to install header files, relative to the ``CMAKE_INSTALL_PREFIX``.
+  Defaults to `include`.
+
+**CMAKE_INSTALL_DOCDIR**:STRING
+  The path to install documentation, relative to the ``CMAKE_INSTALL_PREFIX``.
+  Defaults to `share/doc`.
+
+**CMAKE_INSTALL_MANDIR**:STRING
+  The path to install manpage files, relative to the ``CMAKE_INSTALL_PREFIX``.
+  Defaults to `share/man`.
 
 **LLVM_CREATE_XCODE_TOOLCHAIN**:BOOL
   macOS Only: If enabled CMake will generate a target named
