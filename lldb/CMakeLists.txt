@@ -11,6 +11,11 @@ set(CMAKE_MODULE_PATH
 # using LLVM as an external library.
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   project(lldb)
+endif()
+
+include(GNUInstallDirs)
+
+if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   include(LLDBStandalone)
 
   set(CMAKE_CXX_STANDARD 14 CACHE STRING "C++ standard to conform to")

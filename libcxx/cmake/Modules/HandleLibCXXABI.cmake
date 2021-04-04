@@ -63,7 +63,7 @@ macro(setup_abi_lib abidefines abishared abistatic abifiles abidirs)
 
         if (LIBCXX_INSTALL_HEADERS)
           install(FILES "${LIBCXX_BINARY_INCLUDE_DIR}/${fpath}"
-            DESTINATION include/c++/v1/${dstdir}
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/c++/v1/${dstdir}"
             COMPONENT cxx-headers
             PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
             )

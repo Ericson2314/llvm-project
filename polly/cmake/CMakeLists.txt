@@ -83,14 +83,15 @@ set(POLLY_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 set(POLLY_CONFIG_LLVM_CMAKE_DIR "${LLVM_BINARY_DIR}/${LLVM_INSTALL_PACKAGE_DIR}")
 set(POLLY_CONFIG_CMAKE_DIR "${POLLY_INSTALL_PREFIX}/${POLLY_INSTALL_PACKAGE_DIR}")
 set(POLLY_CONFIG_LIBRARY_DIRS "${POLLY_INSTALL_PREFIX}/lib${LLVM_LIBDIR_SUFFIX}")
+get_filename_component(base_includedir "${CMAKE_INSTALL_INCLUDEDIR}" ABSOLUTE BASE_DIR "${POLLY_INSTALL_PREFIX}")
 if (POLLY_BUNDLED_ISL)
   set(POLLY_CONFIG_INCLUDE_DIRS
-    "${POLLY_INSTALL_PREFIX}/include"
-    "${POLLY_INSTALL_PREFIX}/include/polly"
+    "${base_includedir}"
+    "${base_includedir}/polly"
     )
 else()
   set(POLLY_CONFIG_INCLUDE_DIRS
-    "${POLLY_INSTALL_PREFIX}/include"
+    "${base_includedir}"
     ${ISL_INCLUDE_DIRS}
     )
 endif()
@@ -100,12 +101,12 @@ endif()
 foreach(tgt IN LISTS POLLY_CONFIG_EXPORTED_TARGETS)
   get_target_property(tgt_type ${tgt} TYPE)
   if (tgt_type STREQUAL "EXECUTABLE")
-    set(tgt_prefix "bin/")
+    set(tgt_prefix "${CMAKE_INSTALL_FULL_BINDIR}/")
   else()
-    set(tgt_prefix "lib/")
+    set(tgt_prefix "${CMAKE_INSTALL_FULL_LIBDIR}/")
   endif()
 
-  set(tgt_path "${CMAKE_INSTALL_PREFIX}/${tgt_prefix}$<TARGET_FILE_NAME:${tgt}>")
+  set(tgt_path "${tgt_prefix}$<TARGET_FILE_NAME:${tgt}>")
   file(RELATIVE_PATH tgt_path ${POLLY_CONFIG_CMAKE_DIR} ${tgt_path})
 
   if (NOT tgt_type STREQUAL "INTERFACE_LIBRARY")

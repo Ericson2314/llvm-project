@@ -1,6 +1,12 @@
 # Check if lld is built as a standalone project.
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   project(lld)
+endif()
+
+include(GNUInstallDirs)
+
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+  project(lld)
   cmake_minimum_required(VERSION 3.13.4)
 
   set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -183,7 +189,7 @@ include_directories(BEFORE
 
 if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
   install(DIRECTORY include/
-    DESTINATION include
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     FILES_MATCHING
     PATTERN "*.h"
     )
