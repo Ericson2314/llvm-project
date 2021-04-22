@@ -69,5 +69,5 @@ endmacro()
 macro(add_lld_symlink name dest)
   add_llvm_tool_symlink(${name} ${dest} ALWAYS_GENERATE)
   # Always generate install targets
-  llvm_install_symlink(${name} ${dest} ALWAYS_GENERATE)
+  llvm_install_symlink(${name} ${dest} ${CMAKE_INSTALL_FULL_BINDIR} ALWAYS_GENERATE)
 endmacro()

@@ -1875,7 +1875,7 @@ function(llvm_install_library_symlink name dest type)
 
 endfunction()
 
-function(llvm_install_symlink name dest)
+function(llvm_install_symlink name dest output_dir)
   cmake_parse_arguments(ARG "ALWAYS_GENERATE" "COMPONENT" "" ${ARGN})
   foreach(path ${CMAKE_MODULE_PATH})
     if(EXISTS ${path}/LLVMInstallSymlink.cmake)
@@ -1898,7 +1898,7 @@ function(llvm_install_symlink name dest)
   set(full_dest ${dest}${CMAKE_EXECUTABLE_SUFFIX})
 
   install(SCRIPT ${INSTALL_SYMLINK}
-          CODE "install_symlink(${full_name} ${full_dest} ${LLVM_TOOLS_INSTALL_DIR})"
+          CODE "install_symlink(${full_name} ${full_dest} ${output_dir})"
           COMPONENT ${component})
 
   if (NOT LLVM_ENABLE_IDE AND NOT ARG_ALWAYS_GENERATE)
@@ -1981,7 +1981,8 @@ function(add_llvm_tool_symlink link_name target)
     endif()
 
     if ((TOOL_IS_TOOLCHAIN OR NOT LLVM_INSTALL_TOOLCHAIN_ONLY) AND LLVM_BUILD_TOOLS)
-      llvm_install_symlink(${link_name} ${target})
+      GNUInstallDirs_get_absolute_install_dir(output_dir LLVM_TOOLS_INSTALL_DIR)
+      llvm_install_symlink(${link_name} ${target} ${output_dir})
     endif()
   endif()
 endfunction()
