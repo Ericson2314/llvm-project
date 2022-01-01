@@ -274,7 +274,7 @@ if (NOT TARGET clang-resource-headers)
   set(LLDB_CLANG_RESOURCE_DIR_NAME "${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
   # Iterate over the possible places where the external resource directory
   # could be and pick the first that exists.
-  foreach(CANDIDATE "${Clang_DIR}/../.." "${LLVM_DIR}" "${LLVM_LIBRARY_DIRS}"
+  foreach(CANDIDATE "${Clang_DIR}/../.." "${LLVM_DIR}" "${LLVM_LIBRARY_DIR}"
                     "${LLVM_BUILD_LIBRARY_DIR}"
                     "${LLVM_BINARY_DIR}/lib${LLVM_LIBDIR_SUFFIX}")
     # Build the resource directory path by appending 'clang/<version number>'.

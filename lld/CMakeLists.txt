@@ -98,7 +98,7 @@ if(LLD_BUILT_STANDALONE)
   set(PACKAGE_VERSION "${LLVM_PACKAGE_VERSION}")
 
   include_directories(${LLVM_INCLUDE_DIRS})
-  link_directories(${LLVM_LIBRARY_DIRS})
+  link_directories("${LLVM_LIBRARY_DIR}")
 
   if(LLVM_INCLUDE_TESTS)
     find_package(Python3 ${LLVM_MINIMUM_PYTHON_VERSION} REQUIRED
