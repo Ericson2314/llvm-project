@@ -644,12 +644,12 @@ enabled sub-projects. Nearly all of these variable names begin with
   Install symliks from the cctools tool names to the corresponding LLVM tools.
   For example, lipo will be symlinked to llvm-lipo.
 
-**LLVM_INSTALL_OCAMLDOC_HTML_DIR**:STRING
+**LLVM_INSTALL_OCAMLDOC_HTML_DIR**:PATH
   The path to install OCamldoc-generated HTML documentation to. This path can
   either be absolute or relative to the CMAKE_INSTALL_PREFIX. Defaults to
   ``${CMAKE_INSTALL_DOCDIR}/llvm/ocaml-html``.
 
-**LLVM_INSTALL_SPHINX_HTML_DIR**:STRING
+**LLVM_INSTALL_SPHINX_HTML_DIR**:PATH
   The path to install Sphinx-generated HTML documentation to. This path can
   either be absolute or relative to the CMAKE_INSTALL_PREFIX. Defaults to
   ``${CMAKE_INSTALL_DOCDIR}/llvm/html``.
@@ -816,16 +816,16 @@ Advanced variables
 These are niche, and changing them from their defaults is more likely to cause
 things to go wrong.  They are also unstable across LLVM versions.
 
-**LLVM_TOOLS_INSTALL_DIR**:STRING
+**LLVM_TOOLS_INSTALL_DIR**:PATH
   The path to install the main LLVM tools, relative to the *CMAKE_INSTALL_PREFIX*.
   Defaults to *CMAKE_INSTALL_BINDIR*.
 
-**LLVM_UTILS_INSTALL_DIR**:STRING
+**LLVM_UTILS_INSTALL_DIR**:PATH
   The path to install auxiliary LLVM utilities, relative to the *CMAKE_INSTALL_PREFIX*.
   Only matters if *LLVM_INSTALL_UTILS* is enabled.
   Defaults to *LLVM_TOOLS_INSTALL_DIR*.
 
-**LLVM_EXAMPLES_INSTALL_DIR**:STRING
+**LLVM_EXAMPLES_INSTALL_DIR**:PATH
   The path for examples of using LLVM, relative to the *CMAKE_INSTALL_PREFIX*.
   Only matters if *LLVM_BUILD_EXAMPLES* is enabled.
   Defaults to "examples".

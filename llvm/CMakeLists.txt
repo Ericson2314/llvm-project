@@ -204,7 +204,7 @@ if(LLVM_CCACHE_BUILD)
   find_program(CCACHE_PROGRAM ccache)
   if(CCACHE_PROGRAM)
     set(LLVM_CCACHE_MAXSIZE "" CACHE STRING "Size of ccache")
-    set(LLVM_CCACHE_DIR "" CACHE STRING "Directory to keep ccached data")
+    set(LLVM_CCACHE_DIR "" CACHE PATH "Directory to keep ccached data")
     set(LLVM_CCACHE_PARAMS "CCACHE_CPP2=yes CCACHE_HASHDIR=yes"
         CACHE STRING "Parameters to pass through to ccache")
 
@@ -348,18 +348,18 @@ endif()
 # LLVM_INSTALL_PACKAGE_DIR needs to be declared prior to adding the tools
 # subdirectory in order to have the value available for llvm-config.
 include(GNUInstallPackageDir)
-set(LLVM_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PACKAGEDIR}/llvm" CACHE STRING
+set(LLVM_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PACKAGEDIR}/llvm" CACHE PATH
   "Path for CMake subdirectory for LLVM (defaults to '${CMAKE_INSTALL_PACKAGEDIR}/llvm')")
 
-set(LLVM_TOOLS_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}" CACHE STRING
+set(LLVM_TOOLS_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}" CACHE PATH
     "Path for binary subdirectory (defaults to '${CMAKE_INSTALL_BINDIR}')")
 mark_as_advanced(LLVM_TOOLS_INSTALL_DIR)
 
-set(LLVM_UTILS_INSTALL_DIR "${LLVM_TOOLS_INSTALL_DIR}" CACHE STRING
+set(LLVM_UTILS_INSTALL_DIR "${LLVM_TOOLS_INSTALL_DIR}" CACHE PATH
     "Path to install LLVM utilities (enabled by LLVM_INSTALL_UTILS=ON) (defaults to LLVM_TOOLS_INSTALL_DIR)")
 mark_as_advanced(LLVM_UTILS_INSTALL_DIR)
 
-set(LLVM_EXAMPLES_INSTALL_DIR "examples" CACHE STRING
+set(LLVM_EXAMPLES_INSTALL_DIR "examples" CACHE PATH
     "Path for examples subdirectory (enabled by LLVM_BUILD_EXAMPLES=ON) (defaults to 'examples')")
 mark_as_advanced(LLVM_EXAMPLES_INSTALL_DIR)
 
@@ -473,7 +473,7 @@ set(LLVM_ENABLE_CURL "OFF" CACHE STRING "Use libcurl for the HTTP client if avai
 
 set(LLVM_ENABLE_HTTPLIB "OFF" CACHE STRING "Use cpp-httplib HTTP server library if available. Can be ON, OFF, or FORCE_ON")
 
-set(LLVM_Z3_INSTALL_DIR "" CACHE STRING "Install directory of the Z3 solver.")
+set(LLVM_Z3_INSTALL_DIR "" CACHE PATH "Install directory of the Z3 solver.")
 
 option(LLVM_ENABLE_Z3_SOLVER
   "Enable Support for the Z3 constraint solver in LLVM."
@@ -684,9 +684,9 @@ option (LLVM_ENABLE_OCAMLDOC "Build OCaml bindings documentation." ON)
 option (LLVM_ENABLE_BINDINGS "Build bindings." ON)
 
 set(LLVM_INSTALL_DOXYGEN_HTML_DIR "${CMAKE_INSTALL_DOCDIR}/llvm/doxygen-html"
-    CACHE STRING "Doxygen-generated HTML documentation install directory")
+    CACHE PATH "Doxygen-generated HTML documentation install directory")
 set(LLVM_INSTALL_OCAMLDOC_HTML_DIR "${CMAKE_INSTALL_DOCDIR}/llvm/ocaml-html"
-    CACHE STRING "OCamldoc-generated HTML documentation install directory")
+    CACHE PATH "OCamldoc-generated HTML documentation install directory")
 
 option (LLVM_BUILD_EXTERNAL_COMPILER_RT
   "Build compiler-rt as an external project." OFF)

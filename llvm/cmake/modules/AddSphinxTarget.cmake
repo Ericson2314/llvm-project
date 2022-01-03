@@ -94,7 +94,7 @@ function (add_sphinx_target builder project)
       elseif (builder STREQUAL html)
         string(TOUPPER "${project}" project_upper)
         set(${project_upper}_INSTALL_SPHINX_HTML_DIR "${CMAKE_INSTALL_DOCDIR}/${project}/html"
-            CACHE STRING "HTML documentation install directory for ${project}")
+            CACHE PATH "HTML documentation install directory for ${project}")
 
         # '/.' indicates: copy the contents of the directory directly into
         # the specified destination, without recreating the last component
