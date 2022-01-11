@@ -25,10 +25,10 @@ endif()
 
 if (LLVM_DIR)
   # Builds that use pre-installed LLVM have LLVM_DIR set.
-  find_program(CLANG_TOOL clang PATHS ${LLVM_TOOLS_BINARY_DIR} NO_DEFAULT_PATH REQUIRED)
+  find_program(CLANG_TOOL clang PATHS ${LLVM_TOOLS_BINARY_DIR} REQUIRED)
   find_program(LINK_TOOL llvm-link PATHS ${LLVM_TOOLS_BINARY_DIR}
-    NO_DEFAULT_PATH REQUIRED)
-  find_program(OPT_TOOL opt PATHS ${LLVM_TOOLS_BINARY_DIR} NO_DEFAULT_PATH REQUIRED)
+    REQUIRED)
+  find_program(OPT_TOOL opt PATHS ${LLVM_TOOLS_BINARY_DIR} REQUIRED)
   libomptarget_say("Building DeviceRTL. Using clang: ${CLANG_TOOL}")
 elseif (LLVM_TOOL_CLANG_BUILD AND NOT CMAKE_CROSSCOMPILING AND NOT OPENMP_STANDALONE_BUILD)
   # LLVM in-tree builds may use CMake target names to discover the tools.
