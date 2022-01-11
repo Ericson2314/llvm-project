@@ -38,9 +38,9 @@ endif()
 
 if (LLVM_DIR)
   # Builds that use pre-installed LLVM have LLVM_DIR set.
-  find_program(CLANG_TOOL clang PATHS ${LLVM_TOOLS_BINARY_DIR} NO_DEFAULT_PATH)
-  find_program(LINK_TOOL llvm-link PATHS ${LLVM_TOOLS_BINARY_DIR} NO_DEFAULT_PATH)
-  find_program(OPT_TOOL opt PATHS ${LLVM_TOOLS_BINARY_DIR} NO_DEFAULT_PATH)
+  find_program(CLANG_TOOL clang PATHS ${LLVM_TOOLS_BINARY_DIR})
+  find_program(LINK_TOOL llvm-link PATHS ${LLVM_TOOLS_BINARY_DIR})
+  find_program(OPT_TOOL opt PATHS ${LLVM_TOOLS_BINARY_DIR})
   if ((NOT CLANG_TOOL) OR (NOT LINK_TOOL) OR (NOT OPT_TOOL))
     libomptarget_say("Not building AMDGCN device RTL. Missing clang: ${CLANG_TOOL}, llvm-link: ${LINK_TOOL} or opt: ${OPT_TOOL}")
     return()
