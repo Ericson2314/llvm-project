@@ -40,48 +40,48 @@ set( LIBCLC_TARGETS_TO_BUILD "all"
 option( ENABLE_RUNTIME_SUBNORMAL "Enable runtime linking of subnormal support."
 OFF )
 
-if( NOT LLVM_CONFIG )
-	find_program( LLVM_CONFIG llvm-config )
-endif()
-execute_process( COMMAND ${LLVM_CONFIG} "--version"
-	         OUTPUT_VARIABLE LLVM_VERSION
+if( LLVM_CONFIG )
+	execute_process( COMMAND ${LLVM_CONFIG} "--version"
+		 OUTPUT_VARIABLE LLVM_VERSION
 		 OUTPUT_STRIP_TRAILING_WHITESPACE )
-message( "LLVM version: ${LLVM_VERSION}" )
+	message( "LLVM version: ${LLVM_VERSION}" )
 
-if( ${LLVM_VERSION} VERSION_LESS ${LIBCLC_MIN_LLVM} )
-	message( FATAL_ERROR "libclc needs at least LLVM ${LIBCLC_MIN_LLVM}" )
+	if( ${LLVM_VERSION} VERSION_LESS ${LIBCLC_MIN_LLVM} )
+		message( FATAL_ERROR "libclc needs at least LLVM ${LIBCLC_MIN_LLVM}" )
+	endif()
+
+	# mesa3d environment is only available since LLVM 4.0
+	if( ${LLVM_VERSION} VERSION_GREATER "3.9.0" )
+		set( LIBCLC_TARGETS_ALL ${LIBCLC_TARGETS_ALL} amdgcn-mesa-mesa3d )
+	endif()
+
+	if( LIBCLC_TARGETS_TO_BUILD STREQUAL "all" )
+		set( LIBCLC_TARGETS_TO_BUILD ${LIBCLC_TARGETS_ALL} )
+	endif()
+
+	execute_process( COMMAND ${LLVM_CONFIG} "--system-libs"
+		OUTPUT_VARIABLE LLVM_SYSTEM_LIBS
+		OUTPUT_STRIP_TRAILING_WHITESPACE )
+	separate_arguments( LLVM_SYSTEM_LIBS )
+	execute_process( COMMAND ${LLVM_CONFIG} "--libs" "core" "bitreader" "bitwriter"
+		OUTPUT_VARIABLE LLVM_LIBS
+		OUTPUT_STRIP_TRAILING_WHITESPACE )
+	separate_arguments( LLVM_LIBS )
+	execute_process( COMMAND ${LLVM_CONFIG} "--libdir"
+		OUTPUT_VARIABLE LLVM_LIBDIR
+		OUTPUT_STRIP_TRAILING_WHITESPACE )
+	execute_process( COMMAND ${LLVM_CONFIG} "--ldflags"
+		OUTPUT_VARIABLE LLVM_LD_FLAGS
+		OUTPUT_STRIP_TRAILING_WHITESPACE )
+	execute_process( COMMAND ${LLVM_CONFIG} "--cxxflags"
+		OUTPUT_VARIABLE LLVM_CXX_FLAGS
+		OUTPUT_STRIP_TRAILING_WHITESPACE )
+	separate_arguments( LLVM_CXX_FLAGS )
+	execute_process( COMMAND ${LLVM_CONFIG} "--bindir"
+		OUTPUT_VARIABLE LLVM_BINDIR
+		OUTPUT_STRIP_TRAILING_WHITESPACE )
+else()
 endif()
-
-# mesa3d environment is only available since LLVM 4.0
-if( ${LLVM_VERSION} VERSION_GREATER "3.9.0" )
-	set( LIBCLC_TARGETS_ALL ${LIBCLC_TARGETS_ALL} amdgcn-mesa-mesa3d )
-endif()
-
-if( LIBCLC_TARGETS_TO_BUILD STREQUAL "all" )
-	set( LIBCLC_TARGETS_TO_BUILD ${LIBCLC_TARGETS_ALL} )
-endif()
-
-execute_process( COMMAND ${LLVM_CONFIG} "--system-libs"
-	OUTPUT_VARIABLE LLVM_SYSTEM_LIBS
-	OUTPUT_STRIP_TRAILING_WHITESPACE )
-separate_arguments( LLVM_SYSTEM_LIBS )
-execute_process( COMMAND ${LLVM_CONFIG} "--libs" "core" "bitreader" "bitwriter"
-	OUTPUT_VARIABLE LLVM_LIBS
-	OUTPUT_STRIP_TRAILING_WHITESPACE )
-separate_arguments( LLVM_LIBS )
-execute_process( COMMAND ${LLVM_CONFIG} "--libdir"
-	OUTPUT_VARIABLE LLVM_LIBDIR
-	OUTPUT_STRIP_TRAILING_WHITESPACE )
-execute_process( COMMAND ${LLVM_CONFIG} "--ldflags"
-	OUTPUT_VARIABLE LLVM_LD_FLAGS
-	OUTPUT_STRIP_TRAILING_WHITESPACE )
-execute_process( COMMAND ${LLVM_CONFIG} "--cxxflags"
-	OUTPUT_VARIABLE LLVM_CXX_FLAGS
-	OUTPUT_STRIP_TRAILING_WHITESPACE )
-separate_arguments( LLVM_CXX_FLAGS )
-execute_process( COMMAND ${LLVM_CONFIG} "--bindir"
-	OUTPUT_VARIABLE LLVM_BINDIR
-	OUTPUT_STRIP_TRAILING_WHITESPACE )
 
 # These were not properly reported in early LLVM and we don't need them
 list( APPEND LLVM_CXX_FLAGS -fno-rtti -fno-exceptions )
