@@ -184,9 +184,9 @@ set(LIBCXXABI_INSTALL_RUNTIME_DIR "${CMAKE_INSTALL_BINDIR}" CACHE PATH
     "Path where built libc++abi runtime libraries should be installed.")
 
 if(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR AND NOT APPLE)
-  set(default_install_libdir "lib${LLVM_LIBDIR_SUFFIX}/${LLVM_DEFAULT_TARGET_TRIPLE}")
+  set(default_install_libdir "${CMAKE_INSTALL_LIBDIR}/${LLVM_DEFAULT_TARGET_TRIPLE}")
 else()
-  set(default_install_libdir "lib${LLVM_LIBDIR_SUFFIX}")
+  set(default_install_libdir "${CMAKE_INSTALL_LIBDIR}")
 endif()
 set(LIBCXXABI_INSTALL_LIBRARY_DIR "${default_install_libdir}" CACHE PATH
     "Path where built libc++abi libraries should be installed.")

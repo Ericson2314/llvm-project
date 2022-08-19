@@ -144,7 +144,7 @@ libunwind specific options
 
 .. option:: LIBUNWIND_INSTALL_LIBRARY_DIR:PATH
 
-  **Default**: ``lib${LLVM_LIBDIR_SUFFIX}``
+  **Default**: ``${CMAKE_INSTALL_LIBDIR}``
 
   Path where built libunwind libraries should be installed. If a relative path,
   relative to ``CMAKE_INSTALL_PREFIX``.

@@ -302,9 +302,6 @@ if (NOT LLVM_LINK_LLVM_DYLIB AND CLANG_LINK_CLANG_DYLIB)
                       "LLVM_LINK_LLVM_DYLIB=OFF")
 endif()
 
-# The libdir suffix must exactly match whatever LLVM's configuration used.
-set(CLANG_LIBDIR_SUFFIX "${LLVM_LIBDIR_SUFFIX}")
-
 set(CLANG_TOOLS_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}" CACHE PATH
     "Path for binary subdirectory (defaults to '${CMAKE_INSTALL_BINDIR}')")
 mark_as_advanced(CLANG_TOOLS_INSTALL_DIR)
@@ -867,7 +864,7 @@ if(CLANG_BUILT_STANDALONE)
   process_llvm_pass_plugins()
 endif()
 
-set(CLANG_INSTALL_LIBDIR_BASENAME "lib${CLANG_LIBDIR_SUFFIX}")
+set(CLANG_INSTALL_LIBDIR_BASENAME "${CMAKE_LIBDIR_BASENAME}")
 
 configure_file(
   ${CLANG_SOURCE_DIR}/include/clang/Config/config.h.cmake

@@ -262,7 +262,7 @@ libc++ specific options
 
 .. option:: LIBCXX_INSTALL_LIBRARY_DIR:PATH
 
-  **Default**: ``lib${LLVM_LIBDIR_SUFFIX}``
+  **Default**: ``${CMAKE_INSTALL_LIBDIR}``
 
   Path where built libc++ libraries should be installed. If a relative path,
   relative to ``CMAKE_INSTALL_PREFIX``.
@@ -424,12 +424,6 @@ The following options allow building libc++ for a different ABI version.
 
 LLVM-specific options
 ---------------------
-
-.. option:: LLVM_LIBDIR_SUFFIX:STRING
-
-  Extra suffix to append to the directory where libraries are to be
-  installed. On a 64-bit architecture, one could use ``-DLLVM_LIBDIR_SUFFIX=64``
-  to install libraries to ``/usr/lib64``.
 
 .. option:: LLVM_BUILD_32_BITS:BOOL
 

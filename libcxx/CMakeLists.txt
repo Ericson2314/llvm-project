@@ -423,9 +423,9 @@ set(LIBCXX_INSTALL_INCLUDE_TARGET_DIR "${install_includedir}" CACHE PATH
     "Path where target-specific libc++ headers should be installed.")
 
 if(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR AND NOT APPLE)
-  set(default_install_libdir "lib${LLVM_LIBDIR_SUFFIX}/${LLVM_DEFAULT_TARGET_TRIPLE}")
+  set(default_install_libdir "${CMAKE_INSTALL_LIBDIR}/${LLVM_DEFAULT_TARGET_TRIPLE}")
 else()
-  set(default_install_libdir "lib${LLVM_LIBDIR_SUFFIX}")
+  set(default_install_libdir "${CMAKE_INSTALL_LIBDIR}")
 endif()
 set(LIBCXX_INSTALL_LIBRARY_DIR "${default_install_libdir}" CACHE PATH
     "Path where built libc++ libraries should be installed.")

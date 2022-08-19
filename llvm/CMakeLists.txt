@@ -56,14 +56,14 @@ project(LLVM
   LANGUAGES C CXX ASM)
 
 if (NOT DEFINED CMAKE_INSTALL_LIBDIR AND DEFINED LLVM_LIBDIR_SUFFIX)
+  message(DEPRECATION
+    "\"LLVM_LIBDIR_SUFFIX\" is deprecated. "
+    "Please set \"CMAKE_INSTALL_LIBDIR\" directly instead.")
   # Must go before `include(GNUInstallDirs)`.
   set(CMAKE_INSTALL_LIBDIR "lib${LLVM_LIBDIR_SUFFIX}")
 endif()
 
-# Must go after `DEFINED LLVM_LIBDIR_SUFFIX` check.
-set(LLVM_LIBDIR_SUFFIX "" CACHE STRING "Define suffix of library directory name (32/64)" )
-
-# Must go after `project(..)`.
+# Must go after project(..)
 include(GNUInstallDirs)
 include(GNUBinaryDirs)
 
@@ -975,7 +975,7 @@ if (NOT TENSORFLOW_AOT_PATH STREQUAL "")
   add_subdirectory(${TENSORFLOW_AOT_PATH}/xla_aot_runtime_src
     ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/tf_runtime)
   install(TARGETS tf_xla_runtime EXPORT LLVMExports
-    ARCHIVE DESTINATION lib${LLVM_LIBDIR_SUFFIX} COMPONENT tf_xla_runtime)
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT tf_xla_runtime)
   set_property(GLOBAL APPEND PROPERTY LLVM_EXPORTS tf_xla_runtime)
   # Once we add more modules, we should handle this more automatically.
   if (DEFINED LLVM_OVERRIDE_MODEL_HEADER_INLINERSIZEMODEL)
