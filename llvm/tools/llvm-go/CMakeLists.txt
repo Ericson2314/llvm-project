@@ -1,5 +1,5 @@
 if(LLVM_BINDINGS MATCHES "go")
-  set(binpath ${CMAKE_BINARY_DIR}/bin/llvm-go${CMAKE_EXECUTABLE_SUFFIX})
+  set(binpath ${CMAKE_BINARY_BINDIR}/llvm-go${CMAKE_EXECUTABLE_SUFFIX})
   add_custom_command(OUTPUT ${binpath}
     COMMAND ${GO_EXECUTABLE} build -o ${binpath} llvm-go.go
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/llvm-go.go

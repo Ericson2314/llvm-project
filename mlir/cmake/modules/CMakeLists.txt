@@ -9,7 +9,7 @@ include(FindPrefixFromConfig)
 set(MLIR_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PACKAGEDIR}/mlir" CACHE STRING
   "Path for CMake subdirectory for Polly (defaults to '${CMAKE_INSTALL_PACKAGEDIR}/polly')")
 # CMAKE_INSTALL_PACKAGEDIR might be absolute, so don't reuse below.
-set(mlir_cmake_builddir "${CMAKE_BINARY_DIR}/lib${LLVM_LIBDIR_SUFFIX}/cmake/mlir")
+set(mlir_cmake_builddir "${CMAKE_BINARY_LIBDIR}/cmake/mlir")
 
 # Keep this in sync with llvm/cmake/CMakeLists.txt!
 set(LLVM_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PACKAGEDIR}/llvm" CACHE STRING

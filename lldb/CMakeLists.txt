@@ -1,12 +1,5 @@
 cmake_minimum_required(VERSION 3.13.4)
 
-# Add path for custom modules.
-set(CMAKE_MODULE_PATH
-  ${CMAKE_MODULE_PATH}
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
-  )
-
 # If we are not building as part of LLVM, build LLDB as a standalone project,
 # using LLVM as an external library.
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
@@ -14,8 +7,23 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   set(LLDB_BUILT_STANDALONE TRUE)
 endif()
 
+if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
+  set(LLVM_COMMON_CMAKE_UTILS ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
+endif()
+
+list(INSERT CMAKE_MODULE_PATH 0
+  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  )
+
 # Must go below project(..)
 include(GNUInstallDirs)
+include(GNUBinaryDirs)
+
+# Add path for custom modules.
+list(INSERT CMAKE_MODULE_PATH 0
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
+  )
 
 if(LLDB_BUILT_STANDALONE)
   include(LLDBStandalone)

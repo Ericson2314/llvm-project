@@ -26,7 +26,7 @@ find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
 
 if (Protobuf_FOUND AND gRPC_FOUND AND PROTOC AND GRPC_CPP_PLUGIN)
   libomptarget_say("Building remote offloading plugin.")
-  set(directory "${CMAKE_BINARY_DIR}/include/openmp/libomptarget/plugins/remote/")
+  set(directory "${CMAKE_BINARY_INCLUDEDIR}/openmp/libomptarget/plugins/remote/")
   file(MAKE_DIRECTORY ${directory})
   execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${directory})
   execute_process(

@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.13.4)
 
+set(CLANG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CLANG_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
 # If we are not building as a part of LLVM, build Clang as an
 # standalone project, using LLVM as an external library:
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
@@ -7,8 +10,17 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   set(CLANG_BUILT_STANDALONE TRUE)
 endif()
 
+if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
+  set(LLVM_COMMON_CMAKE_UTILS ${CLANG_SOURCE_DIR}/../cmake)
+endif()
+
+list(INSERT CMAKE_MODULE_PATH 0
+  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  )
+
 # Must go below project(..)
 include(GNUInstallDirs)
+include(GNUBinaryDirs)
 
 if(CLANG_BUILT_STANDALONE)
   set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard to conform to")
@@ -35,15 +47,7 @@ if(CLANG_BUILT_STANDALONE)
   find_program(LLVM_TABLEGEN_EXE "llvm-tblgen" ${LLVM_TOOLS_BINARY_DIR}
     NO_DEFAULT_PATH)
 
-  # They are used as destination of target generators.
-  set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin)
-  set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX})
-  if(WIN32 OR CYGWIN)
-    # DLL platform -- put DLLs into bin.
-    set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_RUNTIME_OUTPUT_INTDIR})
-  else()
-    set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_LIBRARY_OUTPUT_INTDIR})
-  endif()
+  include(LLVMSetIntDirs)
 
   option(LLVM_INSTALL_TOOLCHAIN_ONLY
     "Only include toolchain files in the 'install' target." OFF)
@@ -71,9 +75,9 @@ if(CLANG_BUILT_STANDALONE)
   include_directories(${LLVM_INCLUDE_DIRS})
   link_directories("${LLVM_LIBRARY_DIR}")
 
-  set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
-  set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib${LLVM_LIBDIR_SUFFIX} )
-  set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib${LLVM_LIBDIR_SUFFIX} )
+  set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR} )
+  set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_LIBDIR} )
+  set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_LIBDIR} )
 
   if(LLVM_INCLUDE_TESTS)
     find_package(Python3 ${LLVM_MINIMUM_PYTHON_VERSION} REQUIRED
@@ -140,15 +144,10 @@ else()
   set(BACKEND_PACKAGE_STRING "${PACKAGE_STRING}")
 endif() # standalone
 
-if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
-  set(LLVM_COMMON_CMAKE_UTILS ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
-endif()
-
 # Make sure that our source directory is on the current cmake module path so that
 # we can include cmake files from this directory.
 list(INSERT CMAKE_MODULE_PATH 0
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
-  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  "${CLANG_CURRENT_SOURCE_DIR}/cmake/modules"
   )
 
 if(LLVM_ENABLE_LIBXML2)
@@ -309,9 +308,6 @@ set(CLANG_LIBDIR_SUFFIX "${LLVM_LIBDIR_SUFFIX}")
 set(CLANG_TOOLS_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}" CACHE PATH
     "Path for binary subdirectory (defaults to '${CMAKE_INSTALL_BINDIR}')")
 mark_as_advanced(CLANG_TOOLS_INSTALL_DIR)
-
-set(CLANG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(CLANG_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR AND NOT MSVC_IDE )
   message(FATAL_ERROR "In-source builds are not allowed. "

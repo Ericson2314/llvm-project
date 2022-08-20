@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.13.4)
 
+set(LLD_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(LLD_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
 # If we are not building as a part of LLVM, build LLD as an
 # standalone project, using LLVM as an external library:
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
@@ -7,8 +10,17 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   set(LLD_BUILT_STANDALONE TRUE)
 endif()
 
+if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
+  set(LLVM_COMMON_CMAKE_UTILS ${LLD_SOURCE_DIR}/../cmake)
+endif()
+
+list(INSERT CMAKE_MODULE_PATH 0
+  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  )
+
 # Must go below project(..)
 include(GNUInstallDirs)
+include(GNUBinaryDirs)
 
 if(LLD_BUILT_STANDALONE)
   set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard to conform to")
@@ -29,8 +41,7 @@ if(LLD_BUILT_STANDALONE)
     NO_DEFAULT_PATH)
 
   # They are used as destination of target generators.
-  set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin)
-  set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX})
+  include(LLVMSetIntDirs)
 
   include(AddLLVM)
   include(TableGen)
@@ -105,9 +116,7 @@ set(LLD_TOOLS_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}" CACHE PATH
     "Path for binary subdirectory (defaults to '${CMAKE_INSTALL_BINDIR}')")
 mark_as_advanced(LLD_TOOLS_INSTALL_DIR)
 
-set(LLD_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(LLD_INCLUDE_DIR ${LLD_SOURCE_DIR}/include )
-set(LLD_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 set(LLD_VENDOR ${PACKAGE_VENDOR} CACHE STRING
   "Vendor-specific text for showing with version information.")
@@ -140,14 +149,9 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
 "`CMakeFiles'. Please delete them.")
 endif()
 
-if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
-  set(LLVM_COMMON_CMAKE_UTILS ${LLD_SOURCE_DIR}/../cmake)
-endif()
-
 # Add path for custom modules.
 list(INSERT CMAKE_MODULE_PATH 0
   "${LLD_SOURCE_DIR}/cmake/modules"
-  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
   )
 
 include(AddLLD)

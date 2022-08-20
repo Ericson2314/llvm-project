@@ -11,14 +11,14 @@ set(ShareFiles
 
 if(CLANG_INSTALL_SCANVIEW)
   foreach(BinFile ${BinFiles})
-    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/bin/${BinFile}
+    add_custom_command(OUTPUT ${CMAKE_BINARY_BINDIR}/${BinFile}
                        COMMAND ${CMAKE_COMMAND} -E make_directory
-                         ${CMAKE_BINARY_DIR}/bin
+                         ${CMAKE_BINARY_BINDIR}
                        COMMAND ${CMAKE_COMMAND} -E copy
                          ${CMAKE_CURRENT_SOURCE_DIR}/bin/${BinFile}
-                         ${CMAKE_BINARY_DIR}/bin/
+                         ${CMAKE_BINARY_BINDIR}/
                        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bin/${BinFile})
-    list(APPEND Depends ${CMAKE_BINARY_DIR}/bin/${BinFile})
+    list(APPEND Depends ${CMAKE_BINARY_BINDIR}/${BinFile})
     install(PROGRAMS bin/${BinFile}
             DESTINATION "${CMAKE_INSTALL_BINDIR}"
             COMPONENT scan-view)

@@ -235,11 +235,6 @@ libc++ specific options
   Build libc++ as a static library. Either `LIBCXX_ENABLE_SHARED` or
   `LIBCXX_ENABLE_STATIC` has to be enabled.
 
-.. option:: LIBCXX_LIBDIR_SUFFIX:STRING
-
-  Extra suffix to append to the directory where libraries are to be installed.
-  This option overrides `LLVM_LIBDIR_SUFFIX`.
-
 .. option:: LIBCXX_HERMETIC_STATIC_LIBRARY:BOOL
 
   **Default**: ``OFF``
@@ -267,7 +262,7 @@ libc++ specific options
 
 .. option:: LIBCXX_INSTALL_LIBRARY_DIR:PATH
 
-  **Default**: ``lib${LIBCXX_LIBDIR_SUFFIX}``
+  **Default**: ``lib${LLVM_LIBDIR_SUFFIX}``
 
   Path where built libc++ libraries should be installed. If a relative path,
   relative to ``CMAKE_INSTALL_PREFIX``.

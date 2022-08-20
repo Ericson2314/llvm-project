@@ -20,6 +20,7 @@ set(LIBUNWIND_LIBCXX_PATH "${CMAKE_CURRENT_LIST_DIR}/../libcxx" CACHE PATH
         "Specify path to libc++ source.")
 
 include(GNUInstallDirs)
+include(GNUBinaryDirs)
 
 #===============================================================================
 # Setup CMake Options
@@ -51,8 +52,6 @@ option(LIBUNWIND_USE_FRAME_HEADER_CACHE "Cache frame headers for unwinding. Requ
 option(LIBUNWIND_REMEMBER_HEAP_ALLOC "Use heap instead of the stack for .cfi_remember_state." OFF)
 option(LIBUNWIND_INSTALL_HEADERS "Install the libunwind headers." OFF)
 
-set(LIBUNWIND_LIBDIR_SUFFIX "${LLVM_LIBDIR_SUFFIX}" CACHE STRING
-    "Define suffix of library directory name (32/64)")
 option(LIBUNWIND_INSTALL_LIBRARY "Install the libunwind library." ON)
 cmake_dependent_option(LIBUNWIND_INSTALL_STATIC_LIBRARY
   "Install the static libunwind library." ON
@@ -116,21 +115,30 @@ set(LIBUNWIND_INSTALL_RUNTIME_DIR "${CMAKE_INSTALL_BINDIR}" CACHE PATH
     "Path where built libunwind runtime libraries should be installed.")
 
 if(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR AND NOT APPLE)
-  set(LIBUNWIND_LIBRARY_DIR ${LLVM_LIBRARY_OUTPUT_INTDIR}/${LLVM_DEFAULT_TARGET_TRIPLE})
-  set(LIBUNWIND_INSTALL_LIBRARY_DIR lib${LLVM_LIBDIR_SUFFIX}/${LLVM_DEFAULT_TARGET_TRIPLE} CACHE PATH
-      "Path where built libunwind libraries should be installed.")
+  set(default_install_libdir "lib${LLVM_LIBDIR_SUFFIX}/${LLVM_DEFAULT_TARGET_TRIPLE}")
+else()
+  set(default_install_libdir "lib${LLVM_LIBDIR_SUFFIX}")
+endif()
+set(LIBUNWIND_INSTALL_LIBRARY_DIR "${default_install_libdir}" CACHE PATH
+    "Path where built libunwind libraries should be installed.")
+
+get_filename_component(LIBUNWIND_LIBDIR_BASENAME "${LIBUNWIND_INSTALL_LIBRARY_DIR}" NAME)
+
+if(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR AND NOT APPLE)
+  set(LIBUNWIND_LIBRARY_DIR "${LLVM_LIBRARY_OUTPUT_INTDIR}/${LLVM_DEFAULT_TARGET_TRIPLE}")
   if(LIBCXX_LIBDIR_SUBDIR)
-    string(APPEND LIBUNWIND_LIBRARY_DIR /${LIBUNWIND_LIBDIR_SUBDIR})
-    string(APPEND LIBUNWIND_INSTALL_LIBRARY_DIR /${LIBUNWIND_LIBDIR_SUBDIR})
+    string(APPEND LIBUNWIND_LIBRARY_DIR "/${LIBUNWIND_LIBDIR_SUBDIR}")
+    string(APPEND LIBUNWIND_INSTALL_LIBRARY_DIR "/${LIBUNWIND_LIBDIR_SUBDIR}")
   endif()
 else()
   if(LLVM_LIBRARY_OUTPUT_INTDIR)
-    set(LIBUNWIND_LIBRARY_DIR ${LLVM_LIBRARY_OUTPUT_INTDIR})
+    if(NOT "${LIBUNWIND_LIBDIR_BASENAME}" EQUAL "${LIBUNWIND_LIBDIR_BASENAME}")
+      message(FATAL_ERROR "per-project and overall libdir basenames must agree.")
+    endif()
+    set(LIBUNWIND_LIBRARY_DIR "${LLVM_LIBRARY_OUTPUT_INTDIR}")
   else()
-    set(LIBUNWIND_LIBRARY_DIR ${CMAKE_BINARY_DIR}/lib${LIBUNWIND_LIBDIR_SUFFIX})
+    set(LIBUNWIND_LIBRARY_DIR "${CMAKE_BINARY_DIR}/${LIBUNWIND_LIBDIR_BASENAME}")
   endif()
-  set(LIBUNWIND_INSTALL_LIBRARY_DIR lib${LIBUNWIND_LIBDIR_SUFFIX} CACHE PATH
-      "Path where built libunwind libraries should be installed.")
 endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIBUNWIND_LIBRARY_DIR})

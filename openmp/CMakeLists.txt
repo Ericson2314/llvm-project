@@ -1,18 +1,20 @@
 cmake_minimum_required(VERSION 3.13.4)
 
-set(LLVM_COMMON_CMAKE_UTILS ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
-
-# Add path for custom modules
-list(INSERT CMAKE_MODULE_PATH 0
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
-  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
-  )
 
 # llvm/runtimes/ will set OPENMP_STANDALONE_BUILD.
 if (OPENMP_STANDALONE_BUILD OR "${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
   set(OPENMP_STANDALONE_BUILD TRUE)
   project(openmp C CXX)
 endif()
+
+if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
+  set(LLVM_COMMON_CMAKE_UTILS ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
+endif()
+
+# Add path for custom modules
+list(INSERT CMAKE_MODULE_PATH 0
+  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  )
 
 # Must go below project(..)
 include(GNUInstallDirs)
@@ -50,6 +52,11 @@ else()
     set(OPENMP_TEST_CXX_COMPILER ${LLVM_RUNTIME_OUTPUT_INTDIR}/clang++.exe)
   endif()
 endif()
+
+# Add path for custom modules
+list(INSERT CMAKE_MODULE_PATH 0
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+  )
 
 # Check and set up common compiler flags.
 include(config-ix)

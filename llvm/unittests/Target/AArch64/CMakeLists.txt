@@ -1,6 +1,6 @@
 include_directories(
   ${CMAKE_SOURCE_DIR}/lib/Target/AArch64
-  ${CMAKE_BINARY_DIR}/lib/Target/AArch64
+  ${CMAKE_BINARY_LIBDIR}/Target/AArch64
   )
 
 set(LLVM_LINK_COMPONENTS

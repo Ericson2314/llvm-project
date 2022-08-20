@@ -57,12 +57,12 @@ add_custom_target(module_files ALL DEPENDS ${MODULE_FILES})
 if (NOT WIN32)
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/flang-to-external-fc.in
-    ${CMAKE_BINARY_DIR}/bin/flang-to-external-fc
+    ${CMAKE_BINARY_BINDIR}/flang-to-external-fc
     @ONLY
   )
-  add_custom_target(flang-to-external-fc ALL DEPENDS ${CMAKE_BINARY_DIR}/bin/flang-to-external-fc)
-  install(PROGRAMS ${CMAKE_BINARY_DIR}/bin/flang-to-external-fc DESTINATION "${CMAKE_INSTALL_BINDIR}")
+  add_custom_target(flang-to-external-fc ALL DEPENDS ${CMAKE_BINARY_BINDIR}/flang-to-external-fc)
+  install(PROGRAMS ${CMAKE_BINARY_BINDIR}/flang-to-external-fc DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif()
 
 # TODO Move this to a more suitable location
-file(COPY ${FLANG_SOURCE_DIR}/module/omp_lib.h DESTINATION "${CMAKE_BINARY_DIR}/include/flang/OpenMP/" FILE_PERMISSIONS OWNER_READ OWNER_WRITE)
+file(COPY ${FLANG_SOURCE_DIR}/module/omp_lib.h DESTINATION "${CMAKE_BINARY_INCLUDEDIR}/flang/OpenMP/" FILE_PERMISSIONS OWNER_READ OWNER_WRITE)

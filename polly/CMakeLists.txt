@@ -1,12 +1,25 @@
 # Check if this is a in tree build.
+
+set(POLLY_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(POLLY_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
 if (NOT DEFINED LLVM_MAIN_SRC_DIR)
   project(Polly)
   cmake_minimum_required(VERSION 3.13.4)
   set(POLLY_STANDALONE_BUILD TRUE)
 endif()
 
+if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
+  set(LLVM_COMMON_CMAKE_UTILS ${POLLY_SOURCE_DIR}/../cmake)
+endif()
+
+list(INSERT CMAKE_MODULE_PATH 0
+  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  )
+
 # Must go below project(..)
 include(GNUInstallDirs)
+include(GNUBinaryDirs)
 
 if(POLLY_STANDALONE_BUILD)
   # Where is LLVM installed?
@@ -51,18 +64,10 @@ else ()
   set(POLLY_GTEST_AVAIL 1)
 endif ()
 
-set(POLLY_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(POLLY_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
-
-if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
-  set(LLVM_COMMON_CMAKE_UTILS ${POLLY_SOURCE_DIR}/../cmake)
-endif()
-
 # Make sure that our source directory is on the current cmake module path so that
 # we can include cmake files from this directory.
 list(INSERT CMAKE_MODULE_PATH 0
   "${POLLY_SOURCE_DIR}/cmake"
-  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
   )
 
 include("polly_macros")

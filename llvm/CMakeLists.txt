@@ -65,6 +65,7 @@ set(LLVM_LIBDIR_SUFFIX "" CACHE STRING "Define suffix of library directory name 
 
 # Must go after `project(..)`.
 include(GNUInstallDirs)
+include(GNUBinaryDirs)
 
 # This C++ standard is required to build LLVM.
 set(LLVM_REQUIRED_CXX_STANDARD 17)
@@ -364,14 +365,7 @@ set(LLVM_EXAMPLES_INSTALL_DIR "examples" CACHE STRING
 mark_as_advanced(LLVM_EXAMPLES_INSTALL_DIR)
 
 # They are used as destination of target generators.
-set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin)
-set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX})
-if(WIN32 OR CYGWIN)
-  # DLL platform -- put DLLs into bin.
-  set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_RUNTIME_OUTPUT_INTDIR})
-else()
-  set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_LIBRARY_OUTPUT_INTDIR})
-endif()
+include(LLVMSetIntDirs)
 
 # Each of them corresponds to llvm-config's.
 set(LLVM_TOOLS_BINARY_DIR ${LLVM_RUNTIME_OUTPUT_INTDIR}) # --bindir

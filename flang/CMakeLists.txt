@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(FLANG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(FLANG_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR AND NOT MSVC_IDE)
   message(FATAL_ERROR "In-source builds are not allowed. \
@@ -29,11 +30,19 @@ else()
   set(FLANG_STANDALONE_BUILD OFF)
 endif()
 
+if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
+  set(LLVM_COMMON_CMAKE_UTILS ${FLANG_SOURCE_DIR}/../cmake)
+endif()
+
+list(INSERT CMAKE_MODULE_PATH 0
+  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  )
+
 # Must go below project(..)
 include(GNUInstallDirs)
+include(GNUBinaryDirs)
 
 if (FLANG_STANDALONE_BUILD)
-  set(FLANG_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
   if (NOT MSVC_IDE)
     set(LLVM_ENABLE_ASSERTIONS ${ENABLE_ASSERTIONS}
       CACHE BOOL "Enable assertions")
@@ -127,11 +136,11 @@ if (FLANG_STANDALONE_BUILD)
 
   link_directories("${LLVM_LIBRARY_DIR}")
 
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR})
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    ${CMAKE_BINARY_DIR}/lib${LLVM_LIBDIR_SUFFIX})
+    ${CMAKE_BINARY_LIBDIR})
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
-    ${CMAKE_BINARY_DIR}/lib${LLVM_LIBDIR_SUFFIX})
+    ${CMAKE_BINARY_LIBDIR})
 
   set(BACKEND_PACKAGE_STRING "LLVM ${LLVM_PACKAGE_VERSION}")
   set(LLVM_EXTERNAL_LIT "${LLVM_TOOLS_BINARY_DIR}/llvm-lit" CACHE STRING "Command used to spawn lit")
@@ -189,12 +198,6 @@ else()
          ${LLVM_INCLUDE_TESTS})
   set(FLANG_GTEST_AVAIL 1)
 
-  if(FLANG_STANDALONE_BUILD)
-    set(FLANG_BINARY_DIR ${CMAKE_BINARY_DIR}/tools/flang)
-  else()
-    set(FLANG_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
-  endif()
-
   set(BACKEND_PACKAGE_STRING "${PACKAGE_STRING}")
   set(MLIR_MAIN_SRC_DIR ${LLVM_MAIN_SRC_DIR}/../mlir/include ) # --src-root
   set(MLIR_INCLUDE_DIR ${LLVM_MAIN_SRC_DIR}/../mlir/include ) # --includedir
@@ -207,7 +210,7 @@ set(FLANG_TOOLS_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}" CACHE PATH
     "Path for binary subdirectory (defaults to '${CMAKE_INSTALL_BINDIR}')")
 mark_as_advanced(FLANG_TOOLS_INSTALL_DIR)
 
-set(FLANG_INTRINSIC_MODULES_DIR ${CMAKE_BINARY_DIR}/include/flang)
+set(FLANG_INTRINSIC_MODULES_DIR ${CMAKE_BINARY_INCLUDEDIR}/flang)
 set(FLANG_INCLUDE_DIR ${FLANG_BINARY_DIR}/include)
 
 # TODO: Remove when libclangDriver is lifted out of Clang
@@ -225,8 +228,7 @@ include_directories(SYSTEM ${CLANG_INCLUDE_DIR})
 
 # tco tool and FIR lib output directories
 if(FLANG_STANDALONE_BUILD)
-  set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/bin)
-  set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/lib)
+  include(LLVMSetIntDirs)
 endif()
 # Always build tco tool
 set(LLVM_BUILD_TOOLS ON)
@@ -235,14 +237,9 @@ include_directories(BEFORE
   ${FLANG_BINARY_DIR}/include
   ${FLANG_SOURCE_DIR}/include)
 
-if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
-  set(LLVM_COMMON_CMAKE_UTILS ${FLANG_SOURCE_DIR}/../cmake)
-endif()
-
 # Add Flang-centric modules to cmake path.
 list(INSERT CMAKE_MODULE_PATH 0
   "${FLANG_SOURCE_DIR}/cmake/modules"
-  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
   )
 include(AddFlang)
 

@@ -35,30 +35,30 @@ foreach(BinFile ${BinFiles})
   if ("${BinFile}" STREQUAL "scan-build")
     # Need to rename scan-build to scan-build-py to prevent overwriting
     # scan-build Perl implementation.
-    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/bin/scan-build-py
+    add_custom_command(OUTPUT ${CMAKE_BINARY_BINDIR}/scan-build-py
                        COMMAND ${CMAKE_COMMAND} -E make_directory
-                         ${CMAKE_BINARY_DIR}/bin
+                         ${CMAKE_BINARY_BINDIR}
                        COMMAND ${CMAKE_COMMAND} -E copy
                          ${CMAKE_CURRENT_SOURCE_DIR}/bin/scan-build
-                         ${CMAKE_BINARY_DIR}/bin/scan-build-py
+                         ${CMAKE_BINARY_BINDIR}/scan-build-py
                        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bin/scan-build)
     install (PROGRAMS "bin/scan-build"
              DESTINATION "${CMAKE_INSTALL_BINDIR}"
              RENAME scan-build-py
              COMPONENT scan-build-py)
-    list(APPEND Depends ${CMAKE_BINARY_DIR}/bin/scan-build-py)
+    list(APPEND Depends ${CMAKE_BINARY_BINDIR}/scan-build-py)
   else()
-    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/bin/${BinFile}
+    add_custom_command(OUTPUT ${CMAKE_BINARY_BINDIR}/${BinFile}
                        COMMAND ${CMAKE_COMMAND} -E make_directory
-                         ${CMAKE_BINARY_DIR}/bin
+                         ${CMAKE_BINARY_BINDIR}
                        COMMAND ${CMAKE_COMMAND} -E copy
                          ${CMAKE_CURRENT_SOURCE_DIR}/bin/${BinFile}
-                         ${CMAKE_BINARY_DIR}/bin/
+                         ${CMAKE_BINARY_BINDIR}/
                        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bin/${BinFile})
     install(PROGRAMS bin/${BinFile}
             DESTINATION "${CMAKE_INSTALL_BINDIR}"
             COMPONENT scan-build-py)
-    list(APPEND Depends ${CMAKE_BINARY_DIR}/bin/${BinFile})
+    list(APPEND Depends ${CMAKE_BINARY_BINDIR}/${BinFile})
   endif()
 endforeach()
 
@@ -77,50 +77,50 @@ foreach(lib ${LibExecs})
 endforeach()
 
 foreach(lib ${LibScanbuild})
-  add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/lib/libscanbuild/${lib}
+  add_custom_command(OUTPUT ${CMAKE_BINARY_LIBDIR}/libscanbuild/${lib}
                      COMMAND ${CMAKE_COMMAND} -E make_directory
-                       ${CMAKE_BINARY_DIR}/lib
+                       ${CMAKE_BINARY_LIBDIR}
                      COMMAND ${CMAKE_COMMAND} -E make_directory
-                       ${CMAKE_BINARY_DIR}/lib/libscanbuild
+                       ${CMAKE_BINARY_LIBDIR}/libscanbuild
                      COMMAND ${CMAKE_COMMAND} -E copy
                        ${CMAKE_CURRENT_SOURCE_DIR}/lib/libscanbuild/${lib}
-                       ${CMAKE_BINARY_DIR}/lib/libscanbuild/
+                       ${CMAKE_BINARY_LIBDIR}/libscanbuild/
                      DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/lib/libscanbuild/${lib})
-  list(APPEND Depends ${CMAKE_BINARY_DIR}/lib/libscanbuild/${lib})
+  list(APPEND Depends ${CMAKE_BINARY_LIBDIR}/libscanbuild/${lib})
   install(PROGRAMS lib/libscanbuild/${lib}
           DESTINATION lib/libscanbuild
           COMPONENT scan-build-py)
 endforeach()
 
 foreach(resource ${LibScanbuildResources})
-  add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/lib/libscanbuild/resources/${resource}
+  add_custom_command(OUTPUT ${CMAKE_BINARY_LIBDIR}/libscanbuild/resources/${resource}
                      COMMAND ${CMAKE_COMMAND} -E make_directory
-                       ${CMAKE_BINARY_DIR}/lib
+                       ${CMAKE_BINARY_LIBDIR}
                      COMMAND ${CMAKE_COMMAND} -E make_directory
-                       ${CMAKE_BINARY_DIR}/lib/libscanbuild
+                       ${CMAKE_BINARY_LIBDIR}/libscanbuild
                      COMMAND ${CMAKE_COMMAND} -E make_directory
-                       ${CMAKE_BINARY_DIR}/lib/libscanbuild/resources
+                       ${CMAKE_BINARY_LIBDIR}/libscanbuild/resources
                      COMMAND ${CMAKE_COMMAND} -E copy
                        ${CMAKE_CURRENT_SOURCE_DIR}/lib/libscanbuild/resources/${resource}
-                       ${CMAKE_BINARY_DIR}/lib/libscanbuild/resources
+                       ${CMAKE_BINARY_LIBDIR}/libscanbuild/resources
                      DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/lib/libscanbuild/resources/${resource})
-  list(APPEND Depends ${CMAKE_BINARY_DIR}/lib/libscanbuild/resources/${resource})
+  list(APPEND Depends ${CMAKE_BINARY_LIBDIR}/libscanbuild/resources/${resource})
   install(PROGRAMS lib/libscanbuild/resources/${resource}
           DESTINATION lib/libscanbuild/resources
           COMPONENT scan-build-py)
 endforeach()
 
 foreach(lib ${LibEar})
-  add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/lib/libear/${lib}
+  add_custom_command(OUTPUT ${CMAKE_BINARY_LIBDIR}/libear/${lib}
                      COMMAND ${CMAKE_COMMAND} -E make_directory
-                       ${CMAKE_BINARY_DIR}/lib
+                       ${CMAKE_BINARY_LIBDIR}
                      COMMAND ${CMAKE_COMMAND} -E make_directory
-                       ${CMAKE_BINARY_DIR}/lib/libear
+                       ${CMAKE_BINARY_LIBDIR}/libear
                      COMMAND ${CMAKE_COMMAND} -E copy
                        ${CMAKE_CURRENT_SOURCE_DIR}/lib/libear/${lib}
-                       ${CMAKE_BINARY_DIR}/lib/libear/
+                       ${CMAKE_BINARY_LIBDIR}/libear/
                      DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/lib/libear/${lib})
-  list(APPEND Depends ${CMAKE_BINARY_DIR}/lib/libear/${lib})
+  list(APPEND Depends ${CMAKE_BINARY_LIBDIR}/libear/${lib})
   install(PROGRAMS lib/libear/${lib}
           DESTINATION lib/libear
           COMPONENT scan-build-py)

@@ -36,9 +36,9 @@ set(BOLT_DEPENDS
 
 add_custom_target(bolt DEPENDS ${BOLT_DEPENDS})
 install(PROGRAMS
-  ${CMAKE_BINARY_DIR}/bin/llvm-bolt
-  ${CMAKE_BINARY_DIR}/bin/perf2bolt
-  ${CMAKE_BINARY_DIR}/bin/llvm-boltdiff
+  ${CMAKE_BINARY_BINDIR}/llvm-bolt
+  ${CMAKE_BINARY_BINDIR}/perf2bolt
+  ${CMAKE_BINARY_BINDIR}/llvm-boltdiff
   DESTINATION ${CMAKE_INSTALL_BINDIR}
   COMPONENT bolt
   )
