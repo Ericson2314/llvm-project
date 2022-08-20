@@ -86,7 +86,7 @@ if(LLVM_BUILD_LLVM_C_DYLIB AND NOT MSVC)
   # To get the export list for a single llvm library:
   # nm ${LIB_PATH} | awk "/T _LLVM/ { print $3 }" | sort -u | sed -e "s/^_//g" > ${LIB_PATH}.exports
 
-  set(LLVM_EXPORTED_SYMBOL_FILE ${LLVM_BINARY_DIR}/libllvm-c.exports)
+  set(LLVM_EXPORTED_SYMBOL_FILE ${LLVM_LIBRARY_DIR}llvm-c.exports)
 
   set(LIB_DIR ${LLVM_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX})
   set(LIB_NAME ${LIB_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}LLVM)
