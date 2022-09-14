@@ -98,7 +98,7 @@ if(LLDB_BUILD_FRAMEWORK)
     BASE_DIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR})
 
   # Essentially, emit the framework's dSYM outside of the framework directory.
-  set(LLDB_DEBUGINFO_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin CACHE STRING
+  set(LLDB_DEBUGINFO_INSTALL_PREFIX "${LLVM_RUNTIME_OUTPUT_INTDIR}" CACHE STRING
       "Directory to emit dSYM files stripped from executables and libraries (Darwin Only)")
 endif()
 

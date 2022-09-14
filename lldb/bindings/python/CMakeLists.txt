@@ -184,7 +184,7 @@ function(finish_swig_python swig_target lldb_python_bindings_dir lldb_python_tar
   # lldb.exe or any other executables that were linked with liblldb.
   if (WIN32 AND NOT "${PYTHON_DLL}" STREQUAL "")
     # When using the Visual Studio CMake generator the lldb binaries end up in Release/bin, Debug/bin etc.
-    file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin" LLDB_BIN_DIR)
+    file(TO_NATIVE_PATH "${LLVM_RUNTIME_OUTPUT_INTDIR}" LLDB_BIN_DIR)
     file(TO_NATIVE_PATH "${PYTHON_DLL}" PYTHON_DLL_NATIVE_PATH)
     add_custom_command(
       TARGET ${swig_target}

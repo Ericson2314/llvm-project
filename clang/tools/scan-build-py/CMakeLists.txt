@@ -35,30 +35,30 @@ foreach(BinFile ${BinFiles})
   if ("${BinFile}" STREQUAL "scan-build")
     # Need to rename scan-build to scan-build-py to prevent overwriting
     # scan-build Perl implementation.
-    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/bin/scan-build-py
+    add_custom_command(OUTPUT ${LLVMPROJ_BINARY_BINDIR}/scan-build-py
                        COMMAND ${CMAKE_COMMAND} -E make_directory
-                         ${CMAKE_BINARY_DIR}/bin
+                         ${LLVMPROJ_BINARY_BINDIR}
                        COMMAND ${CMAKE_COMMAND} -E copy
                          ${CMAKE_CURRENT_SOURCE_DIR}/bin/scan-build
-                         ${CMAKE_BINARY_DIR}/bin/scan-build-py
+                         ${LLVMPROJ_BINARY_BINDIR}/scan-build-py
                        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bin/scan-build)
     install (PROGRAMS "bin/scan-build"
              DESTINATION "${CMAKE_INSTALL_BINDIR}"
              RENAME scan-build-py
              COMPONENT scan-build-py)
-    list(APPEND Depends ${CMAKE_BINARY_DIR}/bin/scan-build-py)
+    list(APPEND Depends ${LLVMPROJ_BINARY_BINDIR}/scan-build-py)
   else()
-    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/bin/${BinFile}
+    add_custom_command(OUTPUT ${LLVMPROJ_BINARY_BINDIR}/${BinFile}
                        COMMAND ${CMAKE_COMMAND} -E make_directory
-                         ${CMAKE_BINARY_DIR}/bin
+                         ${LLVMPROJ_BINARY_BINDIR}
                        COMMAND ${CMAKE_COMMAND} -E copy
                          ${CMAKE_CURRENT_SOURCE_DIR}/bin/${BinFile}
-                         ${CMAKE_BINARY_DIR}/bin/
+                         ${LLVMPROJ_BINARY_BINDIR}/
                        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bin/${BinFile})
     install(PROGRAMS bin/${BinFile}
             DESTINATION "${CMAKE_INSTALL_BINDIR}"
             COMPONENT scan-build-py)
-    list(APPEND Depends ${CMAKE_BINARY_DIR}/bin/${BinFile})
+    list(APPEND Depends ${LLVMPROJ_BINARY_BINDIR}/${BinFile})
   endif()
 endforeach()
 
