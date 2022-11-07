@@ -1,9 +1,3 @@
-if(NOT DEFINED LLVM_COMMON_CMAKE_UTILS)
-  set(LLVM_COMMON_CMAKE_UTILS ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
-endif()
-
-list(APPEND CMAKE_MODULE_PATH "${LLVM_COMMON_CMAKE_UTILS}/Modules")
-
 option(LLVM_INSTALL_TOOLCHAIN_ONLY "Only include toolchain files in the 'install' target." OFF)
 
 find_package(LLVM REQUIRED CONFIG HINTS ${LLVM_DIR} NO_CMAKE_FIND_ROOT_PATH)
@@ -68,15 +62,7 @@ else()
   endif()
 endif()
 
-# They are used as destination of target generators.
-set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin)
-set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX})
-if(WIN32 OR CYGWIN)
-  # DLL platform -- put DLLs into bin.
-  set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_RUNTIME_OUTPUT_INTDIR})
-else()
-  set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_LIBRARY_OUTPUT_INTDIR})
-endif()
+include(LLVMSetIntDirs)
 
 # We append the directory in which LLVMConfig.cmake lives. We expect LLVM's
 # CMake modules to be in that directory as well.

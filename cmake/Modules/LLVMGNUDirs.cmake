@@ -1,0 +1,25 @@
+# Must go before the first `include(GNUInstallDirs)`.
+
+if (NOT DEFINED CMAKE_INSTALL_LIBDIR AND DEFINED LLVM_LIBDIR_SUFFIX)
+  set(CMAKE_INSTALL_LIBDIR "lib${LLVM_LIBDIR_SUFFIX}")
+endif()
+
+include(GNUInstallDirs)
+
+# `LLVMPROJ` used to distinguish project-wide vars from LLVM itself, one
+# "project" in here among many.
+
+if (NOT DEFINED LLVMPROJ_BINARY_BINDIR)
+  set(LLVMPROJ_BINARY_BINDIR "${LLVMPROJ_BINARY_DIR}/bin")
+endif()
+
+if (NOT DEFINED LLVMPROJ_BINARY_INCLUDEDIR)
+  set(LLVMPROJ_BINARY_INCLUDEDIR "${LLVMPROJ_BINARY_DIR}/include")
+endif()
+
+if (NOT DEFINED LLVMPROJ_LIBDIR_BASENAME)
+  get_filename_component(LLVMPROJ_LIBDIR_BASENAME "${LLVMPROJ_INSTALL_LIBDIR}" NAME)
+endif()
+if (NOT DEFINED LLVMPROJ_BINARY_LIBDIR)
+  set(LLVMPROJ_BINARY_LIBDIR "${LLVMPROJ_BINARY_DIR}/${LLVMPROJ_LIBDIR_BASENAME}")
+endif()

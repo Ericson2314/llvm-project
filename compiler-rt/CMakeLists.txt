@@ -22,6 +22,10 @@ list(INSERT CMAKE_MODULE_PATH 0
   "${LLVM_COMMON_CMAKE_UTILS}/Modules"
   )
 
+# Must go before the first `include(GNUInstallDirs)`.
+# Must go after project(..)
+include(LLVMGNUDirs)
+
 if(CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CFG_RESOLVED_INTDIR "${CMAKE_CFG_INTDIR}/")
 else()

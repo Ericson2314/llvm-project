@@ -6,6 +6,9 @@ endif()
 include(${LLVM_COMMON_CMAKE_UTILS}/Modules/CMakePolicy.cmake
   NO_POLICY_SCOPE)
 
+set(CLANG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CLANG_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
 # If we are not building as a part of LLVM, build Clang as an
 # standalone project, using LLVM as an external library:
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
@@ -13,8 +16,13 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   set(CLANG_BUILT_STANDALONE TRUE)
 endif()
 
-# Must go below project(..)
-include(GNUInstallDirs)
+list(INSERT CMAKE_MODULE_PATH 0
+  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  )
+
+# Must go before the first `include(GNUInstallDirs)`.
+# Must go after project(..)
+include(LLVMGNUDirs)
 
 if(CLANG_BUILT_STANDALONE)
   set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard to conform to")
@@ -41,15 +49,7 @@ if(CLANG_BUILT_STANDALONE)
   find_program(LLVM_TABLEGEN_EXE "llvm-tblgen" ${LLVM_TOOLS_BINARY_DIR}
     NO_DEFAULT_PATH)
 
-  # They are used as destination of target generators.
-  set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin)
-  set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX})
-  if(WIN32 OR CYGWIN)
-    # DLL platform -- put DLLs into bin.
-    set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_RUNTIME_OUTPUT_INTDIR})
-  else()
-    set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_LIBRARY_OUTPUT_INTDIR})
-  endif()
+  include(LLVMSetIntDirs)
 
   option(LLVM_INSTALL_TOOLCHAIN_ONLY
     "Only include toolchain files in the 'install' target." OFF)
@@ -145,8 +145,7 @@ endif() # standalone
 # Make sure that our source directory is on the current cmake module path so that
 # we can include cmake files from this directory.
 list(INSERT CMAKE_MODULE_PATH 0
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
-  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  "${CLANG_CURRENT_SOURCE_DIR}/cmake/modules"
   )
 
 # This allows disabling clang's XML dependency even if LLVM finds libxml2.
@@ -295,9 +294,6 @@ set(CLANG_LIBDIR_SUFFIX "${LLVM_LIBDIR_SUFFIX}")
 set(CLANG_TOOLS_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}" CACHE PATH
     "Path for binary subdirectory (defaults to '${CMAKE_INSTALL_BINDIR}')")
 mark_as_advanced(CLANG_TOOLS_INSTALL_DIR)
-
-set(CLANG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(CLANG_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR AND NOT MSVC_IDE )
   message(FATAL_ERROR "In-source builds are not allowed. "

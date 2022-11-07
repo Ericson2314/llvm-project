@@ -1,6 +1,6 @@
 option(CLANG_INSTALL_SCANBUILD "Install the scan-build tool" ON)
 
-include(GNUInstallDirs)
+include(LLVMGNUDirs)
 
 if (WIN32 AND NOT CYGWIN)
   set(BinFiles

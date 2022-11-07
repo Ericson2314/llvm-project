@@ -22,7 +22,9 @@ set(LIBCXX_SOURCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR})
 set(LIBCXX_BINARY_DIR  ${CMAKE_CURRENT_BINARY_DIR})
 set(LIBCXX_BINARY_INCLUDE_DIR "${LIBCXX_BINARY_DIR}/include/c++build")
 
-include(GNUInstallDirs)
+# Must go before the first `include(GNUInstallDirs)`.
+# Must go after project(..)
+include(LLVMGNUDirs)
 
 # Require out of source build.
 include(MacroEnsureOutOfSourceBuild)
@@ -151,8 +153,6 @@ if (LIBCXX_BENCHMARK_NATIVE_STDLIB)
 endif()
 
 option(LIBCXX_INCLUDE_DOCS "Build the libc++ documentation." ${LLVM_INCLUDE_DOCS})
-set(LIBCXX_LIBDIR_SUFFIX "${LLVM_LIBDIR_SUFFIX}" CACHE STRING
-    "Define suffix of library directory name (32/64)")
 option(LIBCXX_INSTALL_HEADERS "Install the libc++ headers." ON)
 option(LIBCXX_INSTALL_LIBRARY "Install the libc++ library." ON)
 cmake_dependent_option(LIBCXX_INSTALL_STATIC_LIBRARY
@@ -411,30 +411,42 @@ set(LIBCXX_SHARED_OUTPUT_NAME "c++" CACHE STRING "Output name for the shared lib
 set(LIBCXX_STATIC_OUTPUT_NAME "c++" CACHE STRING "Output name for the static libc++ runtime library.")
 
 if(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR AND NOT APPLE)
+  set(default_install_path "${CMAKE_INSTALL_INCLUDEDIR}/${LLVM_DEFAULT_TARGET_TRIPLE}/c++/v1")
+else()
+  set(default_install_path "${LIBCXX_INSTALL_INCLUDE_DIR}")
+endif()
+set(LIBCXX_INSTALL_INCLUDE_TARGET_DIR "${default_install_path}" CACHE PATH
+    "Path where target-specific libc++ headers should be installed.")
+unset(default_install_path)
+
+if(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR AND NOT APPLE)
+  set(default_install_path "lib${LLVM_LIBDIR_SUFFIX}/${LLVM_DEFAULT_TARGET_TRIPLE}")
+else()
+  set(default_install_path "lib${LLVM_LIBDIR_SUFFIX}")
+endif()
+set(LIBCXX_INSTALL_LIBRARY_DIR "${default_install_path}" CACHE PATH
+    "Path where built libc++ libraries should be installed.")
+unset(default_install_path)
+
+get_filename_component(LIBCXX_LIBDIR_BASENAME "${LIBCXX_INSTALL_LIBRARY_DIR}" NAME)
+
+if(LLVM_ENABLE_PER_TARGET_RUNTIME_DIR AND NOT APPLE)
   set(LIBCXX_LIBRARY_DIR ${LLVM_LIBRARY_OUTPUT_INTDIR}/${LLVM_DEFAULT_TARGET_TRIPLE})
   set(LIBCXX_GENERATED_INCLUDE_DIR "${LLVM_BINARY_DIR}/include/c++/v1")
   set(LIBCXX_GENERATED_INCLUDE_TARGET_DIR "${LLVM_BINARY_DIR}/include/${LLVM_DEFAULT_TARGET_TRIPLE}/c++/v1")
-  set(LIBCXX_INSTALL_LIBRARY_DIR lib${LLVM_LIBDIR_SUFFIX}/${LLVM_DEFAULT_TARGET_TRIPLE} CACHE PATH
-      "Path where built libc++ libraries should be installed.")
-  set(LIBCXX_INSTALL_INCLUDE_TARGET_DIR "${CMAKE_INSTALL_INCLUDEDIR}/${LLVM_DEFAULT_TARGET_TRIPLE}/c++/v1" CACHE PATH
-      "Path where target-specific libc++ headers should be installed.")
   if(LIBCXX_LIBDIR_SUBDIR)
-    string(APPEND LIBCXX_LIBRARY_DIR /${LIBCXX_LIBDIR_SUBDIR})
-    string(APPEND LIBCXX_INSTALL_LIBRARY_DIR /${LIBCXX_LIBDIR_SUBDIR})
+    string(APPEND LIBCXX_LIBRARY_DIR "/${LIBCXX_LIBDIR_SUBDIR}")
+    string(APPEND LIBCXX_INSTALL_LIBRARY_DIR "/${LIBCXX_LIBDIR_SUBDIR}")
   endif()
 else()
   if(LLVM_LIBRARY_OUTPUT_INTDIR)
-    set(LIBCXX_LIBRARY_DIR ${LLVM_LIBRARY_OUTPUT_INTDIR})
+    set(LIBCXX_LIBRARY_DIR "${LLVM_LIBRARY_OUTPUT_INTDIR}")
     set(LIBCXX_GENERATED_INCLUDE_DIR "${LLVM_BINARY_DIR}/include/c++/v1")
   else()
-    set(LIBCXX_LIBRARY_DIR ${CMAKE_BINARY_DIR}/lib${LIBCXX_LIBDIR_SUFFIX})
-    set(LIBCXX_GENERATED_INCLUDE_DIR "${CMAKE_BINARY_DIR}/include/c++/v1")
+    set(LIBCXX_LIBRARY_DIR "${CMAKE_BINARY_DIR}/${LIBCXX_LIBDIR_BASENAME}")
+    set(LIBCXX_GENERATED_INCLUDE_DIR "${LLVMPROJ_BINARY_INCLUDEDIR}/c++/v1")
   endif()
   set(LIBCXX_GENERATED_INCLUDE_TARGET_DIR "${LIBCXX_GENERATED_INCLUDE_DIR}")
-  set(LIBCXX_INSTALL_LIBRARY_DIR lib${LIBCXX_LIBDIR_SUFFIX} CACHE PATH
-      "Path where built libc++ libraries should be installed.")
-  set(LIBCXX_INSTALL_INCLUDE_TARGET_DIR "${LIBCXX_INSTALL_INCLUDE_DIR}" CACHE PATH
-      "Path where target-specific libc++ headers should be installed.")
 endif()
 
 file(MAKE_DIRECTORY "${LIBCXX_BINARY_INCLUDE_DIR}")

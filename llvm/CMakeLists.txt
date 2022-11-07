@@ -44,20 +44,23 @@ if (CMAKE_GENERATOR STREQUAL "Xcode" AND NOT CMAKE_OSX_ARCHITECTURES)
   set(CMAKE_OSX_ARCHITECTURES "x86_64")
 endif()
 
+set(LLVM_COMMON_CMAKE_UTILS ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
+
+# Add path for common private CMake modules
+list(INSERT CMAKE_MODULE_PATH 0
+  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
+  )
+
 project(LLVM
   VERSION ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
   LANGUAGES C CXX ASM)
 
-if (NOT DEFINED CMAKE_INSTALL_LIBDIR AND DEFINED LLVM_LIBDIR_SUFFIX)
-  # Must go before `include(GNUInstallDirs)`.
-  set(CMAKE_INSTALL_LIBDIR "lib${LLVM_LIBDIR_SUFFIX}")
-endif()
-
-# Must go after `DEFINED LLVM_LIBDIR_SUFFIX` check.
-set(LLVM_LIBDIR_SUFFIX "" CACHE STRING "Define suffix of library directory name (32/64)" )
-
+# Must go before the first `include(GNUInstallDirs)`.
 # Must go after `project(..)`.
-include(GNUInstallDirs)
+include(LLVMGNUDirs)
+
+# Must go after `include(LLVMGNUDirs)`.
+set(LLVM_LIBDIR_SUFFIX "" CACHE STRING "Define suffix of library directory name (32/64)" )
 
 # This C++ standard is required to build LLVM.
 set(LLVM_REQUIRED_CXX_STANDARD 17)
@@ -278,7 +281,6 @@ endif()
 list(INSERT CMAKE_MODULE_PATH 0
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
-  "${LLVM_COMMON_CMAKE_UTILS}/Modules"
   )
 
 # Generate a CompilationDatabase (compile_commands.json file) for our build,
@@ -385,14 +387,7 @@ set(LLVM_EXAMPLES_INSTALL_DIR "examples" CACHE STRING
 mark_as_advanced(LLVM_EXAMPLES_INSTALL_DIR)
 
 # They are used as destination of target generators.
-set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin)
-set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX})
-if(WIN32 OR CYGWIN)
-  # DLL platform -- put DLLs into bin.
-  set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_RUNTIME_OUTPUT_INTDIR})
-else()
-  set(LLVM_SHLIB_OUTPUT_INTDIR ${LLVM_LIBRARY_OUTPUT_INTDIR})
-endif()
+include(LLVMSetIntDirs)
 
 # Each of them corresponds to llvm-config's.
 set(LLVM_TOOLS_BINARY_DIR ${LLVM_RUNTIME_OUTPUT_INTDIR}) # --bindir

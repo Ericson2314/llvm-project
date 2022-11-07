@@ -4,6 +4,10 @@ set(BOLT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(BOLT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 set(CMAKE_CXX_STANDARD 17)
 
+# Must go before the first `include(GNUInstallDirs)`.
+# Must go after project(..)
+include(LLVMGNUDirs)
+
 set(BOLT_ENABLE_RUNTIME OFF)
 if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
   set(BOLT_ENABLE_RUNTIME ON)
